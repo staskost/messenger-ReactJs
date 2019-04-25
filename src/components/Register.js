@@ -41,7 +41,7 @@ class Register extends Component {
                 this.props.history.push('/');
             } else {
                 response.json().then(data => {
-                    alert(data.message+" Try Again");
+                    alert(data.message + " Try Again");
                 })
             }
         }).catch(error => console.error('Error:', error));
@@ -78,14 +78,6 @@ class Register extends Component {
                             </div>
                         </div>
                         <div className="form-group row justify-content-center">
-                            <label htmlFor="repeatPassword" className="col-sm-3 col-form-label">Repeat Password</label>
-                            <div className="col-sm-4">
-                                <input type="password" className="form-control" id="repeatPassword" name="p2"
-                                    aria-describedby="password2HelpBlock" required ref={this.p2} />
-                                <small id="password2HelpBlock" className="form-text text-muted">
-                                    Passwords must match
-                    </small>
-                            </div>
                         </div>
                         <div className="form-group row justify-content-center">
                             <label htmlFor="firstName" className="col-sm-3 col-form-label">First Name</label>

@@ -6,8 +6,6 @@ import { LogoutModalBody } from './LogoutModalBody';
 import SendMessage from './SendMessage';
 
 
-
-
 // const NavLink = props => {
 //     const link = <Link className="nav-link" to={props.to}>{props.label}</Link>;
 //     if (props.to === props.location) {
@@ -33,7 +31,7 @@ class Nav extends Component {
                         <NavMenu />
                         <LoginModalBody history={this.props.history}/>
                         <LogoutModalBody history={this.props.history}/>
-                        <SendMessage />
+                        <SendMessage users={this.props.users} fetchUsers={this.props.fetchUsers}/>
                 </nav>
             </div>
         );

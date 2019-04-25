@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserContext from './context/user-context';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import UserNav from './components/UserNav'
 import { LoginModalBody } from './components/Auth';
 import { LogoutModalBody } from './components/LogoutModalBody';
@@ -26,9 +26,20 @@ class App extends Component {
       isLoggedIn: this.props.userProps ? true : false,
       token: this.props.userProps ? this.props.userProps.token : '',
       userInfo: this.props.userProps ? this.props.userProps.userInfo : {},
-      updateUserContext: this.updateUserContext
+      updateUserContext: this.updateUserContext,
+      users:[]
     };
   }
+
+
+  renderProtectedComponent(ProtectedComponent) {
+    if (this.state.isLoggedIn) {
+        return  (props) => <ProtectedComponent {...props} />;
+    }
+    else {
+        return (props) => <Redirect to='/' />;
+    }
+}
   
   render() {
     return (
@@ -37,8 +48,8 @@ class App extends Component {
           <UserNav history={this.history}/>
           <Switch>
           <Route path="/" exact component={Main} />
-          <Route path="/messages"  exact component={Inbox} />
-          <Route path="/messages/out" exact component={Outbox} />
+          <Route path="/messages"  exact render={this.renderProtectedComponent(Inbox)} />
+          <Route path="/messages/out" exact render={this.renderProtectedComponent(Outbox)} />
           <Route path="/send" exact component={SendMessage} />
           <Route path="/login" exact component={LoginModalBody} />
           <Route path="/logout"  exact component={LogoutModalBody} />

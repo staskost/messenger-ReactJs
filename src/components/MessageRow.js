@@ -14,7 +14,7 @@ class MessageRow extends Component {
                 <td>{this.props.msg.text}</td>
                 <td>{msgDate.toDateString()} {msgDate.toLocaleTimeString()}</td>
                 <td><ReplyModalButton msg={this.props.msg} folderType={this.props.folderType} /></td>
-                <td><DeleteModalButton msg={this.props.msg} fetchMsg={this.props.fetchMsg} onDelete={this.props.onDelete}/></td>
+                <td><DeleteModalButton msg={this.props.msg} onDelete={this.props.onDelete}/></td>
                 <td><ForwardModalButton msg={this.props.msg}/></td>
             </tr>
         );

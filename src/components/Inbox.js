@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import Messages from './Messages';
-;
+import Msg from './Msg';
 
 
 class Inbox extends Component {
     render() {
         return (
-            <Messages folderType='INBOX' />
+            <Msg folderType='INBOX' />
         );
     }
 }

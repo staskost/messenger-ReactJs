@@ -10,7 +10,33 @@ class ForwardModaButton extends Component {
         super(props);
         this.receiver = React.createRef();
         this.handleSendMessage = this.handleSendMessage.bind(this);
+        this.fetchUsers = this.fetchUsers.bind(this);
+        this.state = {
+            users: []
+        }
+    }
 
+    fetchUsers() {
+        const url = 'http://localhost:8080/find/users-starts-with/' + this.receiver.current.value;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-MSG-AUTH': this.context.token,
+                'Accept': 'application/json'
+            },
+        }).then(response => {
+            console.log('Response status:', response.status);
+            if (response.status === 200) {
+                response.json().then(data => {
+                    this.setState({
+                        users: data
+                    });
+                    console.log(data);
+                })
+            } else {
+                console.log(response.status);
+            }
+        }).catch(error => console.error('Error:', error));
     }
 
     handleSendMessage = () => {
@@ -19,7 +45,6 @@ class ForwardModaButton extends Component {
             alert("Receiver is mandatory");
         } else {
             const url = 'http://localhost:8080/messages/save/' + this.receiver.current.value;
-
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -56,8 +81,13 @@ class ForwardModaButton extends Component {
                                 <form>
                                     <div className="form-group">
                                         <label htmlFor='receiver' className="col-form-label">Receiver:</label>
-                                        <input type="receiver" className="form-control" id="receiver" name="receiver"
-                                            required ref={this.receiver} />
+                                        <input list="users" type="receiver" className="form-control" id="receiver" name="receiver"
+                                            ref={this.receiver} required onChange={this.fetchUsers} />
+                                        <datalist id="users">
+                                            {this.state.users.map((user, index) => {
+                                                return <option key={index} value={user.username} />;
+                                            })}
+                                        </datalist>
                                     </div>
                                 </form>
                             </div>

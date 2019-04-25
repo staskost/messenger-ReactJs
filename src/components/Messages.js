@@ -6,6 +6,7 @@ import PaginationHeader from './PaginationHeader';
 
 class Messages extends Component {
 
+    //This class is not used it's another way of pagination with start and size.
     constructor(props) {
         super(props);
         this.messagesPerPageOptions = [5, 10, 25];
@@ -14,7 +15,7 @@ class Messages extends Component {
             totalPages: 1,
             totalMessages: 0,
             messagesPerPage: this.messagesPerPageOptions[0],
-            messages: [],
+            messages: []
         };
         this.setActivePage = this.setActivePage.bind(this);
         this.setMessagesPerPage = this.setMessagesPerPage.bind(this);
@@ -68,14 +69,12 @@ class Messages extends Component {
             method: 'GET',
             headers: {
                 'X-MSG-AUTH': this.context.token,
-                'Accept': 'application/json',
+                'Accept': 'application/json'
             }
         }).then(response => {
             console.log('Response status:', response.status);
             if (response.status === 200) {
                 response.json().then( data => {
-                console.log(data);
-                console.log('Saving fetched messages to state');
                 const lastPageMessages = data.count % this.state.messagesPerPage;
                 const pagesNumber = (lastPageMessages > 0) ? (((data.count - lastPageMessages) / this.state.messagesPerPage) + 1) : (data.count / this.state.messagesPerPage);
                 this.setState({
@@ -83,7 +82,6 @@ class Messages extends Component {
                     totalMessages: data.count,
                     messages: data.results
                 });
-                console.log('Messages in state:', this.state.messages);
                 })
             }
         }).catch(error => console.error('Error:', error));
@@ -137,7 +135,8 @@ class Messages extends Component {
                             <tbody>
                                 {this.state.messages.map((m, index) => {
                                     console.log('Updating li for message ' + index);
-                                    return <MessageRow key={'mk_' + m.id} msg={m} folderType={this.props.folderType} i={((this.state.currentPage - 1) * this.state.messagesPerPage) + (index + 1) } onDelete={this.handleDeletion}></MessageRow>
+                                    return <MessageRow key={'mk_' + m.id} msg={m} folderType={this.props.folderType} i={((this.state.currentPage - 1) * this.state.messagesPerPage) + (index + 1) }
+                                     onDelete={this.handleDeletion}></MessageRow>
                                 })}
                             </tbody>
                         </table>

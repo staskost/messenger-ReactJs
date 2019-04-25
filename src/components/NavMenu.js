@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import UserContext from '../context/user-context';
+import NotificationsNav from './NotificationsNav';
 
 // const NavLink = props => {
 //     const link = <Link className="nav-link" to={props.to}>{props.label}</Link>;
@@ -19,6 +20,7 @@ class NavMenu extends Component {
     render() {
         if (this.context.isLoggedIn) {
             return (
+                <React.Fragment>
                 <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle active" id="navbarProfileDropdownMenuLink" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -27,10 +29,12 @@ class NavMenu extends Component {
                     <div className="dropdown-menu" aria-labelledby="navbarProfileDropdownMenuLink">
                         <Link className="dropdown-item" to="/messages/">My Inbox Messages</Link>
                         <Link className="dropdown-item" to="/messages/out">My Outbox Messages</Link>
-                        <a className="dropdown-item" data-toggle="modal" data-target="#newMessageModal">Send New Message</a>
+                        <a className="dropdown-item" data-toggle="modal" data-target="#newMessageModal" href="#newMessageModal">Send New Message</a>
                         <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal" href="#logoutModal">Logout</a>
                     </div>
                 </li>
+                <NotificationsNav/>
+                </React.Fragment>
             );
         }
         else {
