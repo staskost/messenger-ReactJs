@@ -12,7 +12,7 @@ class PaginationHeader extends Component {
         return (
             <div className="container">
                 <div className="row px-3">
-                    <small className="text-muted">{this.props.count} messages</small>
+                    <small className="text-muted">{this.props.count} results</small>
                     <div className="dropdown ml-auto">
                         <button className="btn btn-outline-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Items Per Page

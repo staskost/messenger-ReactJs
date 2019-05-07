@@ -39,7 +39,7 @@ export class LoginModalBody extends Component {
                     this.props.history.push('/');
                     console.log('Context value in handleLogin()', this.context);
                 })
-            }else{
+            } else{
                 response.json().then(data => {
                     alert(data.message);
                 })

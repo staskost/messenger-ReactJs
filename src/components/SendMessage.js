@@ -34,7 +34,7 @@ class SendMessage extends Component {
             }).then(response => {
                 console.log('Response status:', response.status);
                 if (response.status === 200) {
-                    console.log('Message sent.');
+                    alert('Message sent.');
                 } else {
                     response.json().then(data => {
                         alert(data.message);

@@ -22,7 +22,6 @@ class Msg extends Component {
         this.setResultsPerPage = this.setResultsPerPage.bind(this);
         this.fetchPageResults = this.fetchPageResults.bind(this);
 
-                // Check for folderType
                 if (this.props.folderType === 'INBOX') {
                     this.messagesTitle = 'Received';
                     this.senderOrReceiver = 'Sender';
@@ -39,14 +38,11 @@ class Msg extends Component {
 
     setActivePage(newActivePage) {
         this.setState({
-            currentPage: newActivePage - 1,     // we have to subtract 1. Our backend 1st page index is 0 for search results
+            currentPage: newActivePage - 1,    
         }, () => this.fetchPageResults());
-        // setState is asynchronous
-        // We had to update messages with callback to make sure they get updated AFTER the value of the current page has been set
     }
 
     setResultsPerPage(option) {
-        // we also reset the currentPage to the first one after each update
         this.setState({
             currentPage: 0,
             resultsPerPage: option
@@ -77,7 +73,6 @@ class Msg extends Component {
     }
 
     fetchPageResults() {
-        // We append pagination options to our url here
         const url = this.fetchUrl+'?page=' + this.state.currentPage + '&size=' + this.state.resultsPerPage;
         fetch(url, {
             method: 'GET',
@@ -97,7 +92,7 @@ class Msg extends Component {
                         noResults: data.count === 0 ? true : false
                     });
                 })
-            } else { // we reset results. We don't want to keep the previous results on the screen
+            } else { 
                 this.setState({
                     currentPage: 0,
                     messages: [],
