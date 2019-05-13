@@ -10,17 +10,17 @@ class ChatMsgs extends Component {
         return (
             <React.Fragment>
                 {this.props.msg.sender.username === this.context.userInfo.username ?
-                    <div class="outgoing_msg">
-                        <div class="sent_msg">
+                    <div className="outgoing_msg">
+                        <div className="sent_msg">
                             <p>{this.props.msg.text}</p>
-                            <span class="time_date">{msgDate.toDateString()} {msgDate.toLocaleTimeString()}</span>
+                            <span className="time_date">{msgDate.toDateString()} {msgDate.toLocaleTimeString()}</span>
                         </div>
                     </div>
-                    : <div class="incoming_msg">
-                        <div class="received_msg">
-                            <div class="received_withd_msg">
+                    : <div className="incoming_msg">
+                        <div className="received_msg">
+                            <div className="received_withd_msg">
                                 <p>{this.props.msg.text}</p>
-                                <span class="time_date">{msgDate.toDateString()} {msgDate.toLocaleTimeString()}</span>
+                                <span className="time_date">{msgDate.toDateString()} {msgDate.toLocaleTimeString()}</span>
                             </div>
                         </div>
                     </div>}

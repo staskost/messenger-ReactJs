@@ -3,19 +3,16 @@ import React, { Component } from 'react';
 class UserRow extends Component {
     render() {
         return (
-            <div class="chat_list">
-                <div class="chat_people">
-                    <div class="chat_ib">
+            <div className="chat_list">
+                <div className="chat_people">
+                    <div className="chat_ib">
                         <h5>{this.props.user.username}</h5>
-                        <button onClick = {this.props.fetchMsgs.bind(this, this.props.user.username)}>chat</button>
-                        <p>Test, which is a new approach to have all solutions
-                    astrology under one roof.</p>
+                        <button type="button" onClick={this.props.fetchMsgs.bind(this, this.props.user.username)}>chat</button>
                     </div>
                 </div>
             </div>
-          
         )
     }
 }
 
-export default UserRow
+export default UserRow;
