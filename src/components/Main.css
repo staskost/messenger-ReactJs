@@ -1,6 +1,6 @@
 #mainharea {
     background-image: url('./img/vintage-mailman-postman-illustration-mail-image.jpg');
-    background-size: auto;
+    background-size: 100vh;
     /* padding-top: 15%; */
-    padding-bottom: 75%;
+    padding-bottom: 45%;
 }

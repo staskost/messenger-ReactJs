@@ -39,10 +39,12 @@ class Register extends Component {
             if (response.status === 200) {
                 alert("Register Successful");
                 this.props.history.push('/');
-            } else {
+            } else if (response.status === 400) {
                 response.json().then(data => {
                     alert(data.message + " Try Again");
                 })
+            } else {
+                alert("Unknown Error...");
             }
         }).catch(error => console.error('Error:', error));
 

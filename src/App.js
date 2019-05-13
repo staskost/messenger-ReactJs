@@ -11,6 +11,7 @@ import Register from './components/Register';
 import SendMessage from './components/SendMessage';
 import Footer from './components/Footer';
 import Admin from './components/Admin';
+import Chat from './components/Chat';
 
 class App extends Component {
 
@@ -51,6 +52,7 @@ class App extends Component {
           <Route path="/" exact component={Main} />
           <Route path="/messages"  exact render={this.renderProtectedComponent(Inbox)} />
           <Route path="/messages/out" exact render={this.renderProtectedComponent(Outbox)} />
+          <Route path="/chat"  exact render={this.renderProtectedComponent(Chat)} />
           <Route path="/admin" exact render={this.renderProtectedComponent(Admin)} />
           <Route path="/send" exact component={SendMessage} />
           <Route path="/login" exact component={LoginModalBody} />

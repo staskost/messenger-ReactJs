@@ -37,12 +37,11 @@ export class LoginModalBody extends Component {
                     localStorage.setItem('userInfo', JSON.stringify(data.user));
                     this.context.updateUserContext();
                     this.props.history.push('/');
-                    console.log('Context value in handleLogin()', this.context);
                 })
-            } else{
-                response.json().then(data => {
-                    alert(data.message);
-                })
+            } else if (response.status === 400) {
+                alert("Invalid Username/Password")
+            } else {
+                alert('Unknown Error...')
             }
         }).catch(error => console.error('Error:', error));
 

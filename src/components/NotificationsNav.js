@@ -58,7 +58,6 @@ class NotificationsNav extends Component {
 
 
 setMessagesSeen = () => {
-
     const url = 'http://localhost:8080/messages/setAllMessagesRead'
     fetch(url, {
         method: 'POST',

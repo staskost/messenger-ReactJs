@@ -21,6 +21,7 @@ export class LogoutModalBody extends Component {
                 localStorage.clear();
                 this.context.updateUserContext();
                 this.props.history.push('/');
+                window.location.reload();
             }
         }).catch(error => console.error('Error on handleLogout():', error));
     }

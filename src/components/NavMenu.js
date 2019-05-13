@@ -19,9 +19,9 @@ class NavMenu extends Component {
 
     render() {
         if (this.context.isLoggedIn) {
-            if(this.context.userInfo.role.id===3){
-                return(<React.Fragment>
-                    <li className="nav-item dropdown">
+            if (this.context.userInfo.role.id === 3) {
+                return (<React.Fragment>
+                    <div className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle active" id="navbarProfileDropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <span style={{ color: "white" }}>{this.context.userInfo.username}</span>
@@ -31,32 +31,35 @@ class NavMenu extends Component {
                             <Link className="dropdown-item" to="/messages/out">My Outbox Messages</Link>
                             <a className="dropdown-item" data-toggle="modal" data-target="#newMessageModal" href="#newMessageModal">Send New Message</a>
                             <Link className="dropdown-item" to="/admin">Admin Page</Link>
+                            <Link className="dropdown-item" to="/chat">Chat</Link>
                             <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal" href="#logoutModal">Logout</a>
                         </div>
-                    </li>
-                    <NotificationsNav/>
+                    </div>
+                    <NotificationsNav />
+                </React.Fragment>
+                );
+            } else {
+                return (
+                    <React.Fragment>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle active" id="navbarProfileDropdownMenuLink" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span style={{ color: "white" }}>{this.context.userInfo.username}</span>
+                            </a>
+                            <div className="dropdown-menu" aria-labelledby="navbarProfileDropdownMenuLink">
+                                <Link className="dropdown-item" to="/messages/">My Inbox Messages</Link>
+                                <Link className="dropdown-item" to="/messages/out">My Outbox Messages</Link>
+                                <a className="dropdown-item" data-toggle="modal" data-target="#newMessageModal" href="#newMessageModal">Send New Message</a>
+                                <Link className="dropdown-item" to="/chat">Chat</Link>
+
+                                <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal" href="#logoutModal">Logout</a>
+                            </div>
+                        </li>
+                        <NotificationsNav />
                     </React.Fragment>
                 );
-            } else{
-            return (
-                <React.Fragment>
-                <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle active" id="navbarProfileDropdownMenuLink" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <span style={{ color: "white" }}>{this.context.userInfo.username}</span>
-                    </a>
-                    <div className="dropdown-menu" aria-labelledby="navbarProfileDropdownMenuLink">
-                        <Link className="dropdown-item" to="/messages/">My Inbox Messages</Link>
-                        <Link className="dropdown-item" to="/messages/out">My Outbox Messages</Link>
-                        <a className="dropdown-item" data-toggle="modal" data-target="#newMessageModal" href="#newMessageModal">Send New Message</a>
-                        <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal" href="#logoutModal">Logout</a>
-                    </div>
-                </li>
-                <NotificationsNav/>
-                </React.Fragment>
-            );
+            }
         }
-     }
         else {
             return (
                 <React.Fragment>
@@ -64,7 +67,7 @@ class NavMenu extends Component {
                         <a className="nav-link" data-toggle="modal" data-target="#loginModal" href="#loginModal">Login</a>
                     </div>
                     <div className="nav-item">
-                        <Link label="Register" to="/register">Register</Link>
+                        <a className="nav-link" href="/register">Register</a>
                     </div>
                 </React.Fragment>
             );
