@@ -23,20 +23,6 @@ class NotificationsNav extends Component {
     }
 
     getNewMessages = () => {
-        // $.ajax({
-        //     type: "GET",
-        //     url: 'http://localhost:8080/messages/unread',
-        //     headers: { "X-MSG-AUTH": this.context.token },
-        //     dataType: "json",
-        //     async: true,
-        //     success: result => {
-        //         this.setState({
-        //             newMessagesCount: result.count
-        //         }, () => this.checkNewNotificationsExist());
-        //     },
-        //     error: () => { }
-        // });
-
         const url = 'http://localhost:8080/messages/unread';
 
         fetch(url, {
@@ -74,19 +60,6 @@ setMessagesSeen = () => {
 
     }).catch(error => console.error('Error:', error));
 }
-//     $.ajax({
-//         type: "POST",
-//         url: `http://localhost:8080/messages/setAllMessagesRead`,
-//         headers: { "X-MSG-AUTH": this.context.token },
-//         async: true,
-//         success: () => {
-//             this.setState({
-//                 newMessagesCount: 0
-//             }, () => this.checkNewNotificationsExist());
-//         },
-//         error: () => { }
-//     });
-// }
 
 render() {
     if (!this.state.visible) return null;

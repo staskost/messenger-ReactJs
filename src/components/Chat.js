@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import UserChat from './UserChat';
 import ChatMsgs from './ChatMsgs';
 import './Chat.css'
@@ -16,19 +17,27 @@ class Chat extends Component {
         this.state = {
             users: [],
             messages: [],
-            currentUser: ''
+            currentUser: "",
+            start: 0,
+            size: 15
         }
-        // this.sendMessage = this.sendMessage.bind(this);
         this.fetchMessages = this.fetchMessages.bind(this);
-        
+
     }
 
     componentDidMount() {
         this.fetchUser();
+      
     }
 
+    componentDidUpdate() {
+        // There is a new message in the state, scroll to bottom of list
+        // const objDiv = document.getElementById('messageList');
+        // objDiv.scrollTop = objDiv.scrollHeight;
+      }
+
     fetchUser() {
-        const url = 'http://localhost:8080/find/all?start=0&size=25'
+        const url = 'http://localhost:8080/find/all?start=' + this.state.start + '&size=' + this.state.size
 
         fetch(url, {
             method: 'GET',
@@ -62,13 +71,21 @@ class Chat extends Component {
             console.log('Response status:', response.status);
             if (response.status === 200) {
                 console.log('Message sent.');
+                const objDiv = document.getElementById('messageList');
+                objDiv.scrollTop = objDiv.scrollHeight;
             }
         }).catch(error => console.error('Error:', error));
     }
 
+
+
     fetchMessages(username) {
-        setInterval( () =>{
-            fetch('http://localhost:8080/messages/UsersMsg/' + this.context.userInfo.username + '/' + username + '?start=0&size=40', {
+        this.setState({
+            currentUser: username
+        });
+        setInterval(() => {
+          
+            fetch('http://localhost:8080/messages/UsersMsg/' + this.context.userInfo.username + '/' + this.state.currentUser, {
                 method: 'GET',
                 headers: {
                     'X-MSG-AUTH': this.context.token
@@ -78,26 +95,49 @@ class Chat extends Component {
                 if (response.status === 200) {
                     response.json().then(data => {
                         this.setState({
-                            messages: data.results,
-                            currentUser: username
+                            messages: data,
+                            // currentUser: username
                         });
+                        console.log(this.state.currentUser);
                     })
                 }
-            }).catch(error => console.error('Error:', error))},1000
+            }).catch(error => console.error('Error:', error))
+        }, 1000
         );
-     
-
-
     }
 
+    fetchNewUsers = () => {
+        const { start, size } = this.state;
+        this.setState({ start: start + size })
+        fetch('http://localhost:8080/find/all?start=' + this.state.start + '&size=' + this.state.size, {
+            method: 'GET',
+            headers: {
+                'X-MSG-AUTH': this.context.token
+            },
+        }).then(response => {
+            console.log('Response status:', response.status);
+            if (response.status === 200) {
+                response.json().then(data => {
+                    this.setState({
+                        users: this.state.users.concat(data.results),
 
-    
+                    });
+                })
+            }
+        }).catch(error => console.error('Error:', error))
+    }
+
+    onClick(username){
+        this.sendMessage(username);
+        document.getElementById("text").value='';
+    }
+
 
     render() {
         return (
             <React.Fragment>
                 <div className="container">
-                    <h3 className=" text-center">Messaging</h3>
+                    <h3 className=" text-center">Messaging with {this.state.currentUser===""?"none yet":this.state.currentUser}</h3>
                     <div className="messaging">
                         <div className="inbox_msg">
                             <div className="inbox_people">
@@ -105,33 +145,39 @@ class Chat extends Component {
                                     <div className="recent_heading">
                                         <h4>Users</h4>
                                     </div>
-                                    <div className="srch_bar">
+                                    {/* <div className="srch_bar">
                                         <div className="stylish-input-group">
                                             <input type="text" className="search-bar" placeholder="Search" />
                                             <span className="input-group-addon">
                                                 <button type="button"> <i className="fa fa-search" aria-hidden="true"></i> </button>
                                             </span>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="inbox_chat">
-                                    {this.state.users.map(u => {
-                                        return <UserChat key={u.id} user={u} fetchMsgs={this.fetchMessages}></UserChat>
-                                    })}
+                                    <InfiniteScroll
+                                        dataLength={this.state.users.length}
+                                        next={this.fetchNewUsers}
+                                        hasMore={true}
+                                        loader={<h4>...</h4>}>
+                                        {this.state.users.map(u => {
+                                            return <UserChat key={u.id} user={u} fetchMsgs={this.fetchMessages}></UserChat>
+                                        })}
+                                    </InfiniteScroll>
                                 </div>
                             </div>
                             <div className="mesgs">
-                                <div className="msg_history">
+                                <div className="msg_history" id="messageList">
                                     {this.state.messages.map(m => {
                                         return <ChatMsgs key={m.id} msg={m}></ChatMsgs>
                                     })}
                                 </div>
                                 <div className="type_msg">
                                     <div className="input_msg_write">
-                                        <input type="text" className="write_msg" placeholder="Type a message" ref={this.text} />
-                                        <button className="msg_send_btn" type="button" onClick={this.sendMessage.bind(this, this.state.currentUser)}><span><FontAwesomeIcon icon="angle-right" /></span></button>
+                                        <input type="text" id="text" className="write_msg" placeholder="Type a message" ref={this.text} required />
+                                        <button className="msg_send_btn" type="button" onClick={this.onClick.bind(this, this.state.currentUser)}><span><FontAwesomeIcon icon="angle-right" /></span></button>
                                     </div>
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
