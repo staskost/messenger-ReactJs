@@ -41,7 +41,7 @@ class Register extends Component {
                 this.props.history.push('/');
             } else if (response.status === 400) {
                 response.json().then(data => {
-                    alert(data.message + " Try Again");
+                    this.setState({ regError: data.message });
                 })
             } else {
                 alert("Unknown Error...");
@@ -54,7 +54,9 @@ class Register extends Component {
         return (
             <React.Fragment>
                 <div className="container col-8">
-                    <div className="text-center"><h1 className="mx-auto">Register</h1></div>
+                    <div className="text-center"><h1 className="mx-auto">Register</h1>
+                    {this.state.regError && <h4 style={{ color: 'red' }}>{this.state.regError}</h4>}
+                    </div>
                     <form onSubmit={this.handleSubmit} className="pt-3 pb-2">
                         <div className="form-group row justify-content-center">
                             <label htmlFor="email" className="col-sm-3 col-form-label">Email</label>
