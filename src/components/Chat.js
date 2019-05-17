@@ -30,14 +30,9 @@ class Chat extends Component {
       
     }
 
-    componentDidUpdate() {
-        // There is a new message in the state, scroll to bottom of list
-        // const objDiv = document.getElementById('messageList');
-        // objDiv.scrollTop = objDiv.scrollHeight;
-      }
 
     fetchUser() {
-        const url = 'http://localhost:8080/find/all?start=' + this.state.start + '&size=' + this.state.size
+        const url = 'http://localhost:8080/find/users/all?start=' + this.state.start + '&size=' + this.state.size
 
         fetch(url, {
             method: 'GET',
@@ -71,8 +66,6 @@ class Chat extends Component {
             console.log('Response status:', response.status);
             if (response.status === 200) {
                 console.log('Message sent.');
-                const objDiv = document.getElementById('messageList');
-                objDiv.scrollTop = objDiv.scrollHeight;
             }
         }).catch(error => console.error('Error:', error));
     }
@@ -109,7 +102,7 @@ class Chat extends Component {
     fetchNewUsers = () => {
         const { start, size } = this.state;
         this.setState({ start: start + size })
-        fetch('http://localhost:8080/find/all?start=' + this.state.start + '&size=' + this.state.size, {
+        fetch('http://localhost:8080/find/users/all?start=' + this.state.start + '&size=' + this.state.size, {
             method: 'GET',
             headers: {
                 'X-MSG-AUTH': this.context.token
@@ -138,6 +131,9 @@ class Chat extends Component {
             <React.Fragment>
                 <div className="container">
                     <h3 className=" text-center">Messaging with {this.state.currentUser===""?"none yet":this.state.currentUser}</h3>
+                    <small className=" text-center">
+                                    {this.state.messages.length === 0 && <h5>Start a conversation</h5>}
+                            </small>
                     <div className="messaging">
                         <div className="inbox_msg">
                             <div className="inbox_people">

@@ -5,6 +5,11 @@ import UserContext from '../context/user-context';
 class ChatMsgs extends Component {
     static contextType = UserContext;
 
+    componentDidMount(){
+                const objDiv = document.getElementById('messageList');
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+
     render() {
         const msgDate = new Date(this.props.msg.date);
         return (
