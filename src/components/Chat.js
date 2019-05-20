@@ -13,26 +13,29 @@ class Chat extends Component {
 
     constructor(props) {
         super(props)
-        this.text = React.createRef()
+        this.text = React.createRef();
+        this.inputSearch = React.createRef();
         this.state = {
             users: [],
+            autocompleteUsers: [],
             messages: [],
             currentUser: "",
             start: 0,
             size: 15
         }
         this.fetchMessages = this.fetchMessages.bind(this);
+        this.fetchAutoCompleteUsers = this.fetchAutoCompleteUsers.bind(this);
 
     }
 
     componentDidMount() {
-        this.fetchUser();
-      
+        this.fetchUsers();
+
     }
 
 
-    fetchUser() {
-        const url = 'http://localhost:8080/find/users/all?start=' + this.state.start + '&size=' + this.state.size
+    fetchUsers() {
+        const url = 'http://localhost:8080/find/chat-usernames?start=' + this.state.start + '&size=' + this.state.size
 
         fetch(url, {
             method: 'GET',
@@ -47,6 +50,29 @@ class Chat extends Component {
                         users: data.results
                     });
                 })
+            }
+        }).catch(error => console.error('Error:', error));
+    }
+
+    fetchAutoCompleteUsers() {
+        const url = 'http://localhost:8080/find/users-starts-with/' + this.inputSearch.current.value;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-MSG-AUTH': this.context.token,
+                'Accept': 'application/json'
+            },
+        }).then(response => {
+            console.log('Response status:', response.status);
+            if (response.status === 200) {
+                response.json().then(data => {
+                    this.setState({
+                        autocompleteUsers: data
+                    });
+                    console.log(data);
+                })
+            } else {
+                console.log(response.status);
             }
         }).catch(error => console.error('Error:', error));
     }
@@ -77,7 +103,7 @@ class Chat extends Component {
             currentUser: username
         });
         setInterval(() => {
-          
+
             fetch('http://localhost:8080/messages/UsersMsg/' + this.context.userInfo.username + '/' + this.state.currentUser, {
                 method: 'GET',
                 headers: {
@@ -102,7 +128,7 @@ class Chat extends Component {
     fetchNewUsers = () => {
         const { start, size } = this.state;
         this.setState({ start: start + size })
-        fetch('http://localhost:8080/find/users/all?start=' + this.state.start + '&size=' + this.state.size, {
+        fetch('http://localhost:8080/find/chat-usernames?start=' + this.state.start + '&size=' + this.state.size, {
             method: 'GET',
             headers: {
                 'X-MSG-AUTH': this.context.token
@@ -120,9 +146,29 @@ class Chat extends Component {
         }).catch(error => console.error('Error:', error))
     }
 
-    onClick(username){
+    sendClick(username) {
         this.sendMessage(username);
-        document.getElementById("text").value='';
+        document.getElementById("text").value = '';
+    }
+
+    userSearch(input) {
+        const url = 'http://localhost:8080/find/validate-user/'+input
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-MSG-AUTH': this.context.token
+            },
+        }).then(response => {
+            console.log('Response status:', response.status);
+            if (response.status === 200) {
+               this.fetchMessages(input)
+            } else {
+                response.json().then(data => {
+                    alert(data.message);
+                })
+            }
+        }).catch(error => console.error('Error:', error))
     }
 
 
@@ -130,25 +176,29 @@ class Chat extends Component {
         return (
             <React.Fragment>
                 <div className="container">
-                    <h3 className=" text-center">Messaging with {this.state.currentUser===""?"none yet":this.state.currentUser}</h3>
+                    <h3 className=" text-center">Messaging with {this.state.currentUser === "" ? "none yet" : this.state.currentUser}</h3>
                     <small className=" text-center">
-                                    {this.state.messages.length === 0 && <h5>Start a conversation</h5>}
-                            </small>
+                        {this.state.messages.length === 0 && <h5>Start a conversation</h5>}
+                    </small>
                     <div className="messaging">
                         <div className="inbox_msg">
                             <div className="inbox_people">
                                 <div className="headind_srch">
                                     <div className="recent_heading">
-                                        <h4>Users</h4>
+                                        <h4>Recent</h4>
                                     </div>
-                                    {/* <div className="srch_bar">
+                                    <div className="srch_bar">
                                         <div className="stylish-input-group">
-                                            <input type="text" className="search-bar" placeholder="Search" />
-                                            <span className="input-group-addon">
-                                                <button type="button"> <i className="fa fa-search" aria-hidden="true"></i> </button>
-                                            </span>
+                                            <input list="users" type="text" id="inputSearch" name="inputSearch" className="search-bar" placeholder="Search" 
+                                            ref={this.inputSearch} required onChange={this.fetchAutoCompleteUsers} />
+                                            <datalist id="users">
+                                            {this.state.autocompleteUsers.map((user, index) => {
+                                                return <option key={index} value={user.username} />;
+                                            })}
+                                            </datalist>
+                                            <button type="button" onClick={() => this.userSearch(this.inputSearch.current.value)}> chat </button>
                                         </div>
-                                    </div> */}
+                                    </div>
                                 </div>
                                 <div className="inbox_chat">
                                     <InfiniteScroll
@@ -171,7 +221,7 @@ class Chat extends Component {
                                 <div className="type_msg">
                                     <div className="input_msg_write">
                                         <input type="text" id="text" className="write_msg" placeholder="Type a message" ref={this.text} required />
-                                        <button className="msg_send_btn" type="button" onClick={this.onClick.bind(this, this.state.currentUser)}><span><FontAwesomeIcon icon="angle-right" /></span></button>
+                                        <button className="msg_send_btn" type="button" onClick={this.sendClick.bind(this, this.state.currentUser)}><span><FontAwesomeIcon icon="angle-right" /></span></button>
                                     </div>
                                 </div>
                             </div>

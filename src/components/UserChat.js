@@ -6,8 +6,8 @@ class UserRow extends Component {
             <div className="chat_list">
                 <div className="chat_people">
                     <div className="chat_ib">
-                        <h5>{this.props.user.username}</h5>
-                        <button type="button" onClick={this.props.fetchMsgs.bind(this, this.props.user.username)}>chat</button>
+                        <h5>{this.props.user}</h5>
+                        <button type="button" onClick={this.props.fetchMsgs.bind(this, this.props.user)}>chat</button>
                     </div>
                 </div>
             </div>
