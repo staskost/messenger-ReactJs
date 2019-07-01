@@ -81,9 +81,9 @@ class ForwardModaButton extends Component {
                                 <form>
                                     <div className="form-group">
                                         <label htmlFor='receiver' className="col-form-label">Receiver:</label>
-                                        <input list="users" type="receiver" className="form-control" id="receiver" name="receiver"
+                                        <input list="users3" type="receiver" className="form-control" id="receiver" name="receiver"
                                             ref={this.receiver} required onChange={this.fetchUsers} />
-                                        <datalist id="users">
+                                        <datalist id="users3">
                                             {this.state.users.map((user, index) => {
                                                 return <option key={index} value={user.username} />;
                                             })}

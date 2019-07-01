@@ -189,9 +189,9 @@ class Chat extends Component {
                                     </div>
                                     <div className="srch_bar">
                                         <div className="stylish-input-group">
-                                            <input list="users" type="text" id="inputSearch" name="inputSearch" className="search-bar" placeholder="Search" 
+                                            <input list="users2" type="text" id="inputSearch" name="inputSearch" className="search-bar" placeholder="Search" 
                                             ref={this.inputSearch} required onChange={this.fetchAutoCompleteUsers} />
-                                            <datalist id="users">
+                                            <datalist id="users2">
                                             {this.state.autocompleteUsers.map((user, index) => {
                                                 return <option key={index} value={user.username} />;
                                             })}

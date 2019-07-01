@@ -38,10 +38,10 @@ export class LoginModalBody extends Component {
                     this.context.updateUserContext();
                     this.props.history.push('/');
                 })
-            } else if (response.status === 400) {
-                alert("Invalid Username/Password")
             } else {
-                alert('Unknown Error...')
+                response.json().then(data => {
+                    alert(data.message );
+                })
             }
         }).catch(error => console.error('Error:', error));
 

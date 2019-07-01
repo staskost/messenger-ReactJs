@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import UserContext from '../context/user-context';
-import MessageRow from './MessageRow';
+import AdminUserMessageRow from './AdminUserMessageRow';
 import PaginationFooter from './PaginationFooter';
 import PaginationHeader from './PaginationHeader';
 
-class Msg extends Component {
-
+class AdminUsersMessages extends Component {
     constructor(props) {
         super(props);
         this.messagesPerPageOptions = [5, 10, 25];
@@ -18,25 +17,26 @@ class Msg extends Component {
             numberOfTotalResults: 0,
             noResults: false
         };
+
+        if (this.props.folderType === 'INBOX') {
+            this.senderOrReceiver = 'Sender';
+            this.fetchUrl = 'http://localhost:8080/messages/inbox/';
+        } else if (this.props.folderType === 'OUTBOX') {
+            this.senderOrReceiver = 'Receiver';
+            this.fetchUrl = 'http://localhost:8080/messages/sent/';
+        } else {
+            console.error('Unknown messages folder type');
+        }
         this.setActivePage = this.setActivePage.bind(this);
         this.setResultsPerPage = this.setResultsPerPage.bind(this);
         this.fetchPageResults = this.fetchPageResults.bind(this);
 
-        if (this.props.folderType === 'INBOX') {
-            this.senderOrReceiver = 'Sender';
-            this.fetchUrl = 'http://localhost:8080/messages/inbox2';
-        } else if (this.props.folderType === 'OUTBOX') {
-            this.senderOrReceiver = 'Receiver';
-            this.fetchUrl = 'http://localhost:8080/messages/sent2';
-        } else {
-            console.error('Unknown messages folder type');
-        }
     }
     static contextType = UserContext;
 
     setActivePage(newActivePage) {
         this.setState({
-            currentPage: newActivePage - 1,
+            currentPage: newActivePage - 1,    
         }, () => this.fetchPageResults());
     }
 
@@ -47,31 +47,14 @@ class Msg extends Component {
         }, () => this.fetchPageResults());
     }
 
-    handleDeletion = (id) => {
-
-        const url = 'http://localhost:8080/messages/delete/' + id;
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-MSG-AUTH': this.context.token
-            },
-        }).then(response => {
-            console.log('Response status:', response.status);
-            if (response.status === 200) {
-                console.log('Message deleted.');
-                this.fetchPageResults();
-            }
-        }).catch(error => console.error('Error:', error));
-    }
-
     componentDidMount() {
         console.log('Messages component did mount');
         this.fetchPageResults();
-    }
+    } 
 
     fetchPageResults() {
-        const url = this.fetchUrl + '?page=' + this.state.currentPage + '&size=' + this.state.resultsPerPage;
+       
+        const url = this.fetchUrl + this.props.id +"?page=" + this.state.currentPage+ '&size=' + this.state.resultsPerPage;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -90,7 +73,7 @@ class Msg extends Component {
                         noResults: data.count === 0 ? true : false
                     });
                 })
-            } else {
+            } else { 
                 this.setState({
                     currentPage: 0,
                     messages: [],
@@ -116,15 +99,12 @@ class Msg extends Component {
                                     <th>{this.senderOrReceiver}</th>
                                     <th>Message</th>
                                     <th>Date</th>
-                                    <th>Contact</th>
-                                    <th>Delete</th>
-                                    <th>Forward</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.state.messages.map((m, index) => {
                                     console.log('Updating li for message ' + index);
-                                    return <MessageRow key={'mk_' + m.id} msg={m} folderType={this.props.folderType} i={((this.state.currentPage) * this.state.resultsPerPage) + (index + 1)} onDelete={this.handleDeletion}></MessageRow>
+                                    return <AdminUserMessageRow key={'mk_' + m.id} msg={m} folderType={this.props.folderType} i={((this.state.currentPage) * this.state.resultsPerPage) + (index + 1)}></AdminUserMessageRow>
                                 })}
                             </tbody>
                         </table>
@@ -134,6 +114,6 @@ class Msg extends Component {
                 <PaginationFooter activePage={this.state.currentPage + 1} totalPages={this.state.numberOfTotalPages} handle={this.setActivePage} />
             </React.Fragment>
         );
-    }
-}
-export default Msg;
+}}
+
+export default AdminUsersMessages;

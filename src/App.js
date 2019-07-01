@@ -12,6 +12,12 @@ import SendMessage from './components/SendMessage';
 import Footer from './components/Footer';
 import Admin from './components/Admin';
 import Chat from './components/Chat';
+import AdminUsersInbox from './components/AdminUsersInbox';
+import AdminUsersOutbox from './components/AdminUsersOutbox';
+import AdminInboxMessages from './components/AdminInboxMessages';
+import AdminOutboxMessages from './components/AdminOutboxMessages'
+import MyAccount from './components/MyAccount';
+
 
 class App extends Component {
 
@@ -36,7 +42,7 @@ class App extends Component {
 
   renderProtectedComponent(ProtectedComponent) {
     if (this.state.isLoggedIn) {
-        return  (props) => <ProtectedComponent {...props} />;
+        return  (props) => <ProtectedComponent {...props}/>;
     }
     else {
         return (props) => <Redirect to='/' />;
@@ -53,7 +59,10 @@ class App extends Component {
           <Route path="/messages"  exact render={this.renderProtectedComponent(Inbox)} />
           <Route path="/messages/out" exact render={this.renderProtectedComponent(Outbox)} />
           <Route path="/chat"  exact render={this.renderProtectedComponent(Chat)} />
-          <Route path="/admin" exact render={this.renderProtectedComponent(Admin)} />
+          <Route path="/admin"  exact render={this.renderProtectedComponent(Admin)} />
+          <Route path="/admin/user/inbox/:id" exact render={this.renderProtectedComponent(AdminInboxMessages)} />
+          <Route path="/admin/user/outbox/:id" exact render={this.renderProtectedComponent(AdminOutboxMessages)} /> 
+          <Route path="/profile" exact render={this.renderProtectedComponent(MyAccount)} />
           <Route path="/send" exact component={SendMessage} />
           <Route path="/login" exact component={LoginModalBody} />
           <Route path="/logout"  exact component={LogoutModalBody} />
