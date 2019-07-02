@@ -20,10 +20,10 @@ class AdminUsersMessages extends Component {
 
         if (this.props.folderType === 'INBOX') {
             this.senderOrReceiver = 'Sender';
-            this.fetchUrl = 'http://localhost:8080/messages/inbox/';
+            this.fetchUrl = 'http://localhost:8080/admin/inbox/';
         } else if (this.props.folderType === 'OUTBOX') {
             this.senderOrReceiver = 'Receiver';
-            this.fetchUrl = 'http://localhost:8080/messages/sent/';
+            this.fetchUrl = 'http://localhost:8080/admin/sent/';
         } else {
             console.error('Unknown messages folder type');
         }

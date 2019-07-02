@@ -45,7 +45,7 @@ class Admin extends Component {
     }
 
     fetchPageResults() {
-        const url = 'http://localhost:8080/find/simple-users?page=' + this.state.currentPage + '&size=' + this.state.resultsPerPage;
+        const url = 'http://localhost:8080/admin/simple-users?page=' + this.state.currentPage + '&size=' + this.state.resultsPerPage;
         fetch(url, {
             method: 'GET',
             headers: {

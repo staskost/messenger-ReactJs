@@ -44,7 +44,7 @@ class AdminOutboxMessages extends Component {
 
     fetchPageResults() {
        
-        const url = "http://localhost:8080/messages/sent/" + this.props.match.params.id +"?page=" + this.state.currentPage+ '&size=' + this.state.resultsPerPage;
+        const url = "http://localhost:8080/admin/sent/" + this.props.match.params.id +"?page=" + this.state.currentPage+ '&size=' + this.state.resultsPerPage;
         fetch(url, {
             method: 'GET',
             headers: {

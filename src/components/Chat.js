@@ -35,7 +35,7 @@ class Chat extends Component {
 
 
     fetchUsers() {
-        const url = 'http://localhost:8080/find/chat-usernames?start=' + this.state.start + '&size=' + this.state.size
+        const url = 'http://localhost:8080/users/chat-usernames?start=' + this.state.start + '&size=' + this.state.size
 
         fetch(url, {
             method: 'GET',
@@ -55,7 +55,7 @@ class Chat extends Component {
     }
 
     fetchAutoCompleteUsers() {
-        const url = 'http://localhost:8080/find/users-starts-with/' + this.inputSearch.current.value;
+        const url = 'http://localhost:8080/users/users-starts-with/' + this.inputSearch.current.value;
         fetch(url, {
             method: 'GET',
             headers: {
@@ -128,7 +128,7 @@ class Chat extends Component {
     fetchNewUsers = () => {
         const { start, size } = this.state;
         this.setState({ start: start + size })
-        fetch('http://localhost:8080/find/chat-usernames?start=' + this.state.start + '&size=' + this.state.size, {
+        fetch('http://localhost:8080/users/chat-usernames?start=' + this.state.start + '&size=' + this.state.size, {
             method: 'GET',
             headers: {
                 'X-MSG-AUTH': this.context.token
@@ -152,7 +152,7 @@ class Chat extends Component {
     }
 
     userSearch(input) {
-        const url = 'http://localhost:8080/find/validate-user/'+input
+        const url = 'http://localhost:8080/users/validate-user/'+input
 
         fetch(url, {
             method: 'GET',

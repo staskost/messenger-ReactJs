@@ -14,7 +14,7 @@ class UserRow extends Component {
  
 
     banUser = () => {
-        const url = `http://localhost:8080/find/bann-user/${this.state.user.id}`;
+        const url = `http://localhost:8080/admin/bann-user/${this.state.user.id}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -37,7 +37,7 @@ class UserRow extends Component {
     }
 
     unbanUser = () => {
-        const url = `http://localhost:8080/find/unbann-user/${this.state.user.id}`;
+        const url = `http://localhost:8080/admin/unbann-user/${this.state.user.id}`;
         fetch(url, {
             method: 'POST',
             headers: {

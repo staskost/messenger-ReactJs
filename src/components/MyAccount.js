@@ -83,7 +83,7 @@ class MyAccount extends Component {
     handleUpdateUsername = () =>{
         const newUsername = this.inputUsername.current.value;
         if ((newUsername !== "") && (newUsername !== this.context.userInfo.username)) {
-            const url = 'http://localhost:8080/find/update-username/' + newUsername;
+            const url = 'http://localhost:8080/users/update-username/' + newUsername;
             fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -109,7 +109,7 @@ class MyAccount extends Component {
     handleUpdateEmail = () =>{
         const newEmail = this.inputEmail.current.value;
         if ((newEmail !== "") && (newEmail !== this.context.userInfo.username)) {
-            const url = 'http://localhost:8080/find/update-email/' + newEmail;
+            const url = 'http://localhost:8080/users/update-email/' + newEmail;
             fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -135,7 +135,7 @@ class MyAccount extends Component {
     handleUpdateFirstName = () =>{
         const newFirstName = this.inputFirstName.current.value;
         if ((newFirstName !== "") && (newFirstName !== this.context.userInfo.firstName)) {
-            const url = 'http://localhost:8080/find/update-email/' + newFirstName;
+            const url = 'http://localhost:8080/users/update-email/' + newFirstName;
             fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -161,7 +161,7 @@ class MyAccount extends Component {
     handleUpdateLastName = () =>{
         const newLastName = this.inputLastName.current.value;
         if ((newLastName !== "") && (newLastName !== this.context.userInfo.lastName)) {
-            const url = 'http://localhost:8080/find/update-email/' + newLastName;
+            const url = 'http://localhost:8080/users/update-email/' + newLastName;
             fetch(url, {
                 method: 'PUT',
                 headers: {

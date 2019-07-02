@@ -45,7 +45,7 @@ class SendMessage extends Component {
     }
 
     fetchUsers() {
-        const url = 'http://localhost:8080/find/users-starts-with/' + this.receiver.current.value;
+        const url = 'http://localhost:8080/users/users-starts-with/' + this.receiver.current.value;
         fetch(url, {
             method: 'GET',
             headers: {
