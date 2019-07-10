@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Message from './Message'
+import GroupChatMessage from './GroupChatMessage'
 
 class MessageList extends React.Component {
     
@@ -30,7 +30,7 @@ class MessageList extends React.Component {
             <div className="message-list">
                 {this.props.messages.map((message, index) => {
                     return (
-                        <Message key={message.id} username={message.senderId} text={message.text} />
+                        <GroupChatMessage key={message.id} username={message.senderId} text={message.text} />
                     )
                 })}
             </div>
