@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import UserContext from '../context/user-context';
 import { Route , withRouter} from 'react-router-dom';
 
+import { default as Chatkit } from '@pusher/chatkit-server';
+
+const chatkit = new Chatkit({
+  instanceLocator: "v1:us1:c69e97bb-eef9-4f5c-810f-951156e74f79",
+  key: "cdeb1880-05fb-4130-8ec2-283082b425c8:XQ45JxNvzSfR3LFtsPgFOHQz33UXeztWtH8v+3XdWV4="
+})
 
 export class LoginModalBody extends Component {
 
@@ -13,6 +19,17 @@ export class LoginModalBody extends Component {
     }
 
     static contextType = UserContext;
+
+    createChatkitUser(){
+        const username = this.context.userInfo.username;
+        chatkit.createUser({
+            id: username,
+            name: username,
+            }).catch((err) => {
+                console.log(err.status);
+              
+            });
+    }
 
     handleLogin(event) {
         console.log('Context value in handleLogin()', this.context);
@@ -36,6 +53,7 @@ export class LoginModalBody extends Component {
                     localStorage.setItem('token', data.alphanumeric);
                     localStorage.setItem('userInfo', JSON.stringify(data.user));
                     this.context.updateUserContext();
+                    this.createChatkitUser();
                     this.props.history.push('/');
                 })
             } else {

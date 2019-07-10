@@ -33,6 +33,7 @@ class NavMenu extends Component {
                             <Link className="dropdown-item" to="/profile">My Profile</Link>
                             <Link className="dropdown-item" to="/admin">Admin Page</Link>
                             <Link className="dropdown-item" to="/chat">Chat</Link>
+                            <Link className="dropdown-item" to="/group-chat">Group Chat</Link>
                             <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal" href="#logoutModal">Logout</a>
                         </div>
                     </div>
@@ -53,7 +54,7 @@ class NavMenu extends Component {
                                 <a className="dropdown-item" data-toggle="modal" data-target="#newMessageModal" href="#newMessageModal">Send New Message</a>
                                 <Link className="dropdown-item" to="/profile">My Profile</Link>
                                 <Link className="dropdown-item" to="/chat">Chat</Link>
-
+                                <Link className="dropdown-item" to="/group-chat">Group Chat</Link>
                                 <a className="dropdown-item" data-toggle="modal" data-target="#logoutModal" href="#logoutModal">Logout</a>
                             </div>
                         </li>

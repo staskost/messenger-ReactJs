@@ -12,6 +12,7 @@ import SendMessage from './components/SendMessage';
 import Footer from './components/Footer';
 import Admin from './components/Admin';
 import Chat from './components/Chat';
+import GroupChat from './components/GroupChat';
 import AdminUsersInbox from './components/AdminUsersInbox';
 import AdminUsersOutbox from './components/AdminUsersOutbox';
 import AdminInboxMessages from './components/AdminInboxMessages';
@@ -59,6 +60,7 @@ class App extends Component {
           <Route path="/messages"  exact render={this.renderProtectedComponent(Inbox)} />
           <Route path="/messages/out" exact render={this.renderProtectedComponent(Outbox)} />
           <Route path="/chat"  exact render={this.renderProtectedComponent(Chat)} />
+          <Route path="/group-chat"  exact render={this.renderProtectedComponent(GroupChat)} />
           <Route path="/admin"  exact render={this.renderProtectedComponent(Admin)} />
           <Route path="/admin/user/inbox/:id" exact render={this.renderProtectedComponent(AdminInboxMessages)} />
           <Route path="/admin/user/outbox/:id" exact render={this.renderProtectedComponent(AdminOutboxMessages)} /> 
