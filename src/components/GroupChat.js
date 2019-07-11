@@ -69,12 +69,12 @@ class GroupChat extends React.Component {
                         messages: [...this.state.messages, message]
                     })
                 },
-                userStartedTyping: user => {
+                onUserStartedTyping: user => {
                     this.setState({
                         usersWhoAreTyping: [...this.state.usersWhoAreTyping, user.id],
                     })
                 },
-                userStoppedTyping: user => {
+                onUserStoppedTyping: user => {
                     this.setState({
                         usersWhoAreTyping: this.state.usersWhoAreTyping.filter(
                             username => username !== user.id
@@ -117,6 +117,31 @@ class GroupChat extends React.Component {
     }
 
     render() {
+        const styles = {
+            container: {
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+            },
+            chatContainer: {
+                display: 'flex',
+                flex: 1,
+            },
+            whosOnlineListContainer: {
+                width: '15%',
+                padding: 20,
+                backgroundColor: '#2c303b',
+                color: 'white',
+            },
+            chatListContainer: {
+                // padding: 20,
+                // width: '85%',
+                display: 'block',
+                // flexDirection: 'column',
+                // height: '100vh',
+                width: '100vw'
+            },
+        }
         return (
             <div className="app">
                 <RoomList
@@ -127,11 +152,16 @@ class GroupChat extends React.Component {
                 <MessageList
                     roomId={this.state.roomId}
                     messages={this.state.messages} />
-                <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
+                <section style={styles.chatListContainer}>
+                    
+                
                 <SendMessageForm
                     disabled={!this.state.roomId}
                     sendMessage={this.sendMessage}
-                    onChange={this.sendTypingEvent} />
+                    onChange={this.sendTypingEvent}
+                />
+                <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
+                </section>
                 <NewRoomForm createRoom={this.createRoom} />
 
             </div>
