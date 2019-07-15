@@ -3,6 +3,7 @@ import Chatkit from '@pusher/chatkit-client'
 import MessageList from './MessageList'
 import SendMessageForm from './SendMessageForm'
 import RoomList from './RoomList'
+import CreatePrivateRoomForm from './CreatePrivateRoomForm'
 import NewRoomForm from './NewRoomForm'
 import UserContext from '../context/user-context';
 import TypingIndicator from './TypingIndicator'
@@ -21,12 +22,14 @@ class GroupChat extends React.Component {
             messages: [],
             joinableRooms: [],
             joinedRooms: [],
-            usersWhoAreTyping: []
+            usersWhoAreTyping: [],
+            roomUsers: []
         }
         this.sendMessage = this.sendMessage.bind(this)
         this.subscribeToRoom = this.subscribeToRoom.bind(this)
         this.getRooms = this.getRooms.bind(this)
         this.createRoom = this.createRoom.bind(this)
+        this.createPrivateRoom = this.createPrivateRoom.bind(this)
         this.sendTypingEvent = this.sendTypingEvent.bind(this)
     }
 
@@ -43,6 +46,7 @@ class GroupChat extends React.Component {
             .then(currentUser => {
                 console.log("Connected as user ", currentUser);
                 this.currentUser = currentUser
+                // console.log(this.currentUser.rooms[3].userIds)
                 this.getRooms()
             })
             .catch(err => console.log('error on connecting: ', err.message))
@@ -63,6 +67,7 @@ class GroupChat extends React.Component {
         this.setState({ messages: [] })
         this.currentUser.subscribeToRoom({
             roomId: roomId,
+
             hooks: {
                 onMessage: message => {
                     this.setState({
@@ -81,15 +86,17 @@ class GroupChat extends React.Component {
                         ),
                     })
                 },
-                // onUserCameOnline: () => this.forceUpdate(),
-                // onUserWentOffline: () => this.forceUpdate(),
-                // onUserJoined: () => this.forceUpdate(),
+                onUserCameOnline: () => this.forceUpdate(),
+                onUserWentOffline: () => this.forceUpdate(),
+                onUserJoined: () => this.forceUpdate(),
             }
         })
             .then(room => {
                 this.setState({
-                    roomId: room.id
+                    roomId: room.id,
+                    roomUsers: room.userIds
                 })
+                // console.log(this.state.roomUsers)
                 this.getRooms()
             })
             .catch(err => console.log('error on subscribing to room: ', err))
@@ -108,6 +115,16 @@ class GroupChat extends React.Component {
             .catch(error => console.error('error', error))
     }
 
+    createPrivateRoom(username, username2) {
+        this.currentUser.createRoom({
+            name: `${username}-${username2}`,
+            private: true,
+            addUserIds: [username, username2]
+        })
+            .then(room => this.subscribeToRoom(room.id))
+            .catch(err => console.log('error with createRoom: ', err))
+    }
+
     createRoom(name) {
         this.currentUser.createRoom({
             name
@@ -118,27 +135,8 @@ class GroupChat extends React.Component {
 
     render() {
         const styles = {
-            container: {
-                height: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-            },
-            chatContainer: {
-                display: 'flex',
-                flex: 1,
-            },
-            whosOnlineListContainer: {
-                width: '15%',
-                padding: 20,
-                backgroundColor: '#2c303b',
-                color: 'white',
-            },
             chatListContainer: {
-                // padding: 20,
-                // width: '85%',
                 display: 'block',
-                // flexDirection: 'column',
-                // height: '100vh',
                 width: '100vw'
             },
         }
@@ -147,20 +145,20 @@ class GroupChat extends React.Component {
                 <RoomList
                     subscribeToRoom={this.subscribeToRoom}
                     rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
-                    roomId={this.state.roomId} />
-
+                    roomId={this.state.roomId}
+                    users= {this.state.roomUsers} />
                 <MessageList
                     roomId={this.state.roomId}
                     messages={this.state.messages} />
                 <section style={styles.chatListContainer}>
+                    <SendMessageForm
+                        disabled={!this.state.roomId}
+                        sendMessage={this.sendMessage}
+                        onChange={this.sendTypingEvent}
+                    />
+                    <CreatePrivateRoomForm createPrivateRoom={this.createPrivateRoom} />
+                    <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
                     
-                
-                <SendMessageForm
-                    disabled={!this.state.roomId}
-                    sendMessage={this.sendMessage}
-                    onChange={this.sendTypingEvent}
-                />
-                <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
                 </section>
                 <NewRoomForm createRoom={this.createRoom} />
 

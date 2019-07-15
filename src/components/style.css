@@ -37,7 +37,14 @@ html, body {
     grid-area: n;
 }
 
+.new-private-room-form {
+    grid-area: p;
+}
+
 .rooms-list {
+    grid-area: r;
+}
+.users-list{
     grid-area: r;
 }
 
@@ -48,6 +55,7 @@ html, body {
 .send-message-form {
     grid-area: f;
 }
+
 
 /* REST OF CSS */
 .rooms-list {
@@ -81,6 +89,40 @@ html, body {
  }
 
 .rooms-list .room.active a {
+    color: var(--secondary-color);
+}
+
+.users-list {
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: var(--main-color);
+    overflow: scroll;
+    height: 100%;
+}
+
+.users-list > ul {
+    list-style-type: none;    
+    padding: 0;
+    overflow: scoll;
+}
+
+.users-list li {
+    margin: 10px 0;
+}
+
+.users-list > h3 {
+    margin: 5px 0;
+    color: var(--secondary-color);
+}
+
+.users-list .room a {
+    color: var(--secondary-text-color);
+    font-weight: 600;
+    text-decoration: none;
+    
+ }
+
+.users-list .room.active a {
     color: var(--secondary-color);
 }
 
