@@ -7,9 +7,11 @@ import CreatePrivateRoomForm from './CreatePrivateRoomForm'
 import NewRoomForm from './NewRoomForm'
 import UserContext from '../context/user-context';
 import TypingIndicator from './TypingIndicator'
+import NewPrivateGroupChatForm from './NewPrivateGroupChatForm'
 import './style.css'
 
 import { tokenUrl, instanceLocator } from './config'
+
 
 class GroupChat extends React.Component {
 
@@ -23,7 +25,8 @@ class GroupChat extends React.Component {
             joinableRooms: [],
             joinedRooms: [],
             usersWhoAreTyping: [],
-            roomUsers: []
+            roomUsers: [],
+            privateRoomId: null
         }
         this.sendMessage = this.sendMessage.bind(this)
         this.subscribeToRoom = this.subscribeToRoom.bind(this)
@@ -31,6 +34,9 @@ class GroupChat extends React.Component {
         this.createRoom = this.createRoom.bind(this)
         this.createPrivateRoom = this.createPrivateRoom.bind(this)
         this.sendTypingEvent = this.sendTypingEvent.bind(this)
+        this.createPrivateRoomForGroupChat = this.createPrivateRoomForGroupChat.bind(this);
+        this.addUserToRoom = this.addUserToRoom.bind(this)
+        this.handleCreation = this.handleCreation.bind(this)
     }
 
     componentDidMount() {
@@ -121,8 +127,38 @@ class GroupChat extends React.Component {
             private: true,
             addUserIds: [username, username2]
         })
-            .then(room => this.subscribeToRoom(room.id))
+            .then(room => this.subscribeToRoom(room.id)
+            )
             .catch(err => console.log('error with createRoom: ', err))
+    }
+
+    handleCreation(roomId){
+        this.subscribeToRoom(roomId)
+        this.setState({privateRoomId:roomId})
+        console.log(roomId)
+    }
+
+    createPrivateRoomForGroupChat = name => {
+        this.currentUser.createRoom({
+            name,
+            private: true
+        })
+            .then(room => this.handleCreation(room.id)
+            )
+            .catch(err => console.log('error with createRoom: ', err))
+    }
+
+    addUserToRoom(username, roomId) {
+        this.currentUser.addUserToRoom({
+            userId: username,
+            roomId: roomId
+        })
+            .then(() => {
+                console.log('Added ' + username + ' to room ' +roomId)
+            })
+            .catch(err => {
+                console.log(`Error : ${err}`)
+            })
     }
 
     createRoom(name) {
@@ -146,7 +182,7 @@ class GroupChat extends React.Component {
                     subscribeToRoom={this.subscribeToRoom}
                     rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
                     roomId={this.state.roomId}
-                    users= {this.state.roomUsers} />
+                    users={this.state.roomUsers} />
                 <MessageList
                     roomId={this.state.roomId}
                     messages={this.state.messages} />
@@ -158,7 +194,8 @@ class GroupChat extends React.Component {
                     />
                     <CreatePrivateRoomForm createPrivateRoom={this.createPrivateRoom} />
                     <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
-                    
+                    <NewPrivateGroupChatForm createPrivateRoomForGroupChat={this.createPrivateRoomForGroupChat}
+                        addUserToRoom={this.addUserToRoom} roomId={this.state.privateRoomId} />
                 </section>
                 <NewRoomForm createRoom={this.createRoom} />
 

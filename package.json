@@ -9,9 +9,12 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@pusher/chatkit-client": "^1.9.1",
     "@pusher/chatkit-server": "^2.0.1",
+    "@webscopeio/react-textarea-autocomplete": "^4.6.1",
+    "emoji-mart": "^2.11.1",
     "jquery": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-feather": "^2.0.3",
     "react-infinite-scroll-component": "^4.5.2",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8"
