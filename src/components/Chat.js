@@ -17,6 +17,7 @@ class Chat extends Component {
         this.inputSearch = React.createRef();
         this.state = {
             users: [],
+            usernames: [],
             autocompleteUsers: [],
             messages: [],
             currentUser: "",
@@ -34,8 +35,48 @@ class Chat extends Component {
     }
 
 
-    fetchUsers() {
+    fetchUsernames = () => {
         const url = 'http://localhost:8080/users/chat-usernames?start=' + this.state.start + '&size=' + this.state.size
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-MSG-AUTH': this.context.token
+            },
+        }).then(response => {
+            console.log('Response status:', response.status);
+            if (response.status === 200) {
+                response.json().then(data => {
+                    this.setState({
+                        usernames: data.results
+                    });
+                })
+            }
+        }).catch(error => console.error('Error:', error));
+    }
+
+    fetchNewUsernames = () => {
+        const { start, size } = this.state;
+        this.setState({ start: start + size })
+        fetch('http://localhost:8080/users/chat-usernames?start=' + this.state.start + '&size=' + this.state.size, {
+            method: 'GET',
+            headers: {
+                'X-MSG-AUTH': this.context.token
+            },
+        }).then(response => {
+            console.log('Response status:', response.status);
+            if (response.status === 200) {
+                response.json().then(data => {
+                    this.setState({
+                        usernames: this.state.usernames.concat(data.results),
+
+                    });
+                })
+            }
+        }).catch(error => console.error('Error:', error))
+    }
+    fetchUsers = () => {
+        const url = 'http://localhost:8080/users/getAllForChat?start=' + this.state.start + '&size=' + this.state.size
 
         fetch(url, {
             method: 'GET',
@@ -52,6 +93,27 @@ class Chat extends Component {
                 })
             }
         }).catch(error => console.error('Error:', error));
+    }
+
+    fetchNewUsers = () => {
+        const { start, size } = this.state;
+        this.setState({ start: start + size })
+        fetch('http://localhost:8080/users/getAllForChat?start=' + this.state.start + '&size=' + this.state.size, {
+            method: 'GET',
+            headers: {
+                'X-MSG-AUTH': this.context.token
+            },
+        }).then(response => {
+            console.log('Response status:', response.status);
+            if (response.status === 200) {
+                response.json().then(data => {
+                    this.setState({
+                        users: this.state.users.concat(data.results),
+
+                    });
+                })
+            }
+        }).catch(error => console.error('Error:', error))
     }
 
     fetchAutoCompleteUsers() {
@@ -79,7 +141,6 @@ class Chat extends Component {
 
     sendMessage(username) {
         console.log('Inside SendMessage');
-        // console.log('MessageRef:', this.text.current.value);
         const url = 'http://localhost:8080/messages/save/' + username;
 
         fetch(url, {
@@ -125,26 +186,7 @@ class Chat extends Component {
         );
     }
 
-    fetchNewUsers = () => {
-        const { start, size } = this.state;
-        this.setState({ start: start + size })
-        fetch('http://localhost:8080/users/chat-usernames?start=' + this.state.start + '&size=' + this.state.size, {
-            method: 'GET',
-            headers: {
-                'X-MSG-AUTH': this.context.token
-            },
-        }).then(response => {
-            console.log('Response status:', response.status);
-            if (response.status === 200) {
-                response.json().then(data => {
-                    this.setState({
-                        users: this.state.users.concat(data.results),
 
-                    });
-                })
-            }
-        }).catch(error => console.error('Error:', error))
-    }
 
     sendClick(username) {
         this.sendMessage(username);
@@ -152,7 +194,7 @@ class Chat extends Component {
     }
 
     userSearch(input) {
-        const url = 'http://localhost:8080/users/validate-user/'+input
+        const url = 'http://localhost:8080/users/validate-user/' + input
 
         fetch(url, {
             method: 'GET',
@@ -162,7 +204,7 @@ class Chat extends Component {
         }).then(response => {
             console.log('Response status:', response.status);
             if (response.status === 200) {
-               this.fetchMessages(input)
+                this.fetchMessages(input)
             } else {
                 response.json().then(data => {
                     alert(data.message);
@@ -185,16 +227,16 @@ class Chat extends Component {
                             <div className="inbox_people">
                                 <div className="headind_srch">
                                     <div className="recent_heading">
-                                        <h4>Recent</h4>
+                                        <h4>Chat Users</h4>
                                     </div>
                                     <div className="srch_bar">
                                         <div className="stylish-input-group">
-                                            <input list="users2" type="text" id="inputSearch" name="inputSearch" className="search-bar" placeholder="Search" 
-                                            ref={this.inputSearch} required onChange={this.fetchAutoCompleteUsers} />
+                                            <input list="users2" type="text" id="inputSearch" name="inputSearch" className="search-bar" placeholder="Search"
+                                                ref={this.inputSearch} required onChange={this.fetchAutoCompleteUsers} />
                                             <datalist id="users2">
-                                            {this.state.autocompleteUsers.map((user, index) => {
-                                                return <option key={index} value={user.username} />;
-                                            })}
+                                                {this.state.autocompleteUsers.map((user, index) => {
+                                                    return <option key={index} value={user.username} />;
+                                                })}
                                             </datalist>
                                             <button type="button" onClick={() => this.userSearch(this.inputSearch.current.value)}> chat </button>
                                         </div>

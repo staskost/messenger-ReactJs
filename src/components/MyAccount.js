@@ -224,7 +224,7 @@ class MyAccount extends Component {
                         <div>
                             {this.context.userInfo.photoLink == '' || this.context.userInfo.photoLink == null ? <FontAwesomeIcon icon={["far", "user-circle"]} size="8x" /> : <img src={this.context.userInfo.photoLink} alt="Profile" style={{ width: "200px" }} />}
                         </div>
-                        <div className="my-2">{this.context.userInfo.firstName + ' ' + this.context.userInfo.lastName}<div className="text-muted">({this.context.userInfo.role.name})</div></div>
+                        <div className="my-2">{this.context.userInfo.firstName + ' ' + this.context.userInfo.lastName}</div>
                         <div className="custom-file text-left">
                             <input type="file" className="custom-file-input" id="profilePicInput" accept=".jpg, .png, .gif, .jpeg" />
                             <label className="custom-file-label" htmlFor="profilePicInput">Upload Picture</label>

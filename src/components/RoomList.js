@@ -1,7 +1,18 @@
 import React from 'react'
 import UserContext from '../context/user-context';
+import $ from "jquery";
 
 class RoomList extends React.Component {
+    static contextType = UserContext;
+
+    hideModal = () => {
+        $("#sessionModal").modal("hide");
+    };
+
+    showModal = () => {
+        $("#sessionModal").modal("show");
+    };
+
     renderUsers() {
         console.log("hi")
         console.log(this.props.users)
@@ -26,13 +37,18 @@ class RoomList extends React.Component {
         )
     }
 
-    static contextType = UserContext;
+
 
     render() {
         const orderedRooms = [...this.props.rooms].sort((a, b) => a.id > b.id)
         return (
             <React.Fragment>
                 <div className="rooms-list">
+                    <div><a
+                        onClick={() => this.showModal}
+                        href="#">
+                        Create
+                    </a> </div>
                     <ul>
                         <h3>Your rooms:</h3>
                         {orderedRooms.map(room => {
@@ -48,8 +64,39 @@ class RoomList extends React.Component {
                             )
                         })}
                     </ul>
-                    {this.props.users? this.renderUsers(): <p>Loading...</p>}                     
-                  
+                    {this.props.users ? this.renderUsers() : <p>Loading...</p>}
+
+                </div>
+
+                <div
+                    className="modal fade"
+                    id="sessionModal"
+                    tabIndex="-1"
+                    role="dialog"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                >
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">
+                                    Training sessions
+                  </h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <h6>Available hours for</h6>
+                                <hr />
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                  </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </React.Fragment>
         )

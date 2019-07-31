@@ -21,6 +21,7 @@ class NavMenu extends Component {
         if (this.context.isLoggedIn) {
             if (this.context.userInfo.role.id === 3) {
                 return (<React.Fragment>
+                    <div><img src={this.context.userInfo.photoLink} className="avatar"></img></div>
                     <div className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle active" id="navbarProfileDropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
@@ -43,6 +44,7 @@ class NavMenu extends Component {
             } else {
                 return (
                     <React.Fragment>
+                        <div><img src={this.context.userInfo.photoLink} className="avatar"></img></div>
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle active" id="navbarProfileDropdownMenuLink" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
