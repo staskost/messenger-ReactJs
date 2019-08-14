@@ -10,7 +10,7 @@ class NewPrivateGroupChatForm extends React.Component {
             roomName: '',
             userName: '',
             isCreated: false,
-            // roomId: ''
+            roomId: ''
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)

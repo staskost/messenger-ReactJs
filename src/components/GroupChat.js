@@ -122,6 +122,11 @@ class GroupChat extends React.Component {
     }
 
     createPrivateRoom(username, username2) {
+        let room = `${username}-${username2}`;
+        const rooms = this.currentUser.rooms
+        if(rooms.indexOf(room)>-1){
+            alert("This room already exists")
+        } else {
         this.currentUser.createRoom({
             name: `${username}-${username2}`,
             private: true,
@@ -131,6 +136,7 @@ class GroupChat extends React.Component {
             )
             .catch(err => console.log('error with createRoom: ', err))
     }
+}
 
     handleCreation(roomId){
         this.subscribeToRoom(roomId)
@@ -138,17 +144,19 @@ class GroupChat extends React.Component {
         console.log(roomId)
     }
 
-    createPrivateRoomForGroupChat = name => {
+    createPrivateRoomForGroupChat = (name, groupUsers) => {
         this.currentUser.createRoom({
-            name,
-            private: true
+            id:`#${name}`,
+            name:`${name}`,
+            private: true,
+            addUserIds: groupUsers,
         })
             .then(room => this.handleCreation(room.id)
             )
             .catch(err => console.log('error with createRoom: ', err))
     }
 
-    addUserToRoom(username, roomId) {
+    addUserToRoom = (username, roomId) =>{
         this.currentUser.addUserToRoom({
             userId: username,
             roomId: roomId
@@ -182,7 +190,8 @@ class GroupChat extends React.Component {
                     subscribeToRoom={this.subscribeToRoom}
                     rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
                     roomId={this.state.roomId}
-                    users={this.state.roomUsers} />
+                    users={this.state.roomUsers}
+                    createPrivate={this.createPrivateRoomForGroupChat} /> 
                 <MessageList
                     roomId={this.state.roomId}
                     messages={this.state.messages} />
@@ -194,8 +203,8 @@ class GroupChat extends React.Component {
                     />
                     <CreatePrivateRoomForm createPrivateRoom={this.createPrivateRoom} />
                     <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
-                    <NewPrivateGroupChatForm createPrivateRoomForGroupChat={this.createPrivateRoomForGroupChat}
-                        addUserToRoom={this.addUserToRoom} roomId={this.state.privateRoomId} />
+                    {/* <NewPrivateGroupChatForm createPrivateRoomForGroupChat={this.createPrivateRoomForGroupChat}
+                        addUserToRoom={this.addUserToRoom} roomId={this.state.privateRoomId} /> */}
                 </section>
                 <NewRoomForm createRoom={this.createRoom} />
 

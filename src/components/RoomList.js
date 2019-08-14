@@ -1,20 +1,13 @@
 import React from 'react'
 import UserContext from '../context/user-context';
 import $ from "jquery";
+import PrivateRoomModal from './PrivateRoomModal';
 
 class RoomList extends React.Component {
+
     static contextType = UserContext;
 
-    hideModal = () => {
-        $("#sessionModal").modal("hide");
-    };
-
-    showModal = () => {
-        $("#sessionModal").modal("show");
-    };
-
     renderUsers() {
-        console.log("hi")
         console.log(this.props.users)
         return (
             <ul>
@@ -28,7 +21,7 @@ class RoomList extends React.Component {
                         )
                     }
                     return (
-                        <WhosOnlineListItem key={index}>
+                        <WhosOnlineListItem key={index} presenceState={this.props.presence}>
                             {user}
                         </WhosOnlineListItem>
                     )
@@ -44,21 +37,19 @@ class RoomList extends React.Component {
         return (
             <React.Fragment>
                 <div className="rooms-list">
-                    <div><a
-                        onClick={() => this.showModal}
-                        href="#">
-                        Create
-                    </a> </div>
+                    <div><PrivateRoomModal createPrivate={this.props.createPrivate}
+                    ></PrivateRoomModal> </div>
                     <ul>
                         <h3>Your rooms:</h3>
                         {orderedRooms.map(room => {
+                            const roomIcon = !room.isPrivate ? '🌐' : '🔒';
                             const active = room.id === this.props.roomId ? 'active' : '';
                             return (
                                 <li key={room.id} className={"room " + active}>
                                     <a
                                         onClick={() => this.props.subscribeToRoom(room.id)}
                                         href="#">
-                                        # {room.name}
+                                        {roomIcon}{room.name}
                                     </a>
                                 </li>
                             )
@@ -66,37 +57,6 @@ class RoomList extends React.Component {
                     </ul>
                     {this.props.users ? this.renderUsers() : <p>Loading...</p>}
 
-                </div>
-
-                <div
-                    className="modal fade"
-                    id="sessionModal"
-                    tabIndex="-1"
-                    role="dialog"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                >
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">
-                                    Training sessions
-                  </h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <h6>Available hours for</h6>
-                                <hr />
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">
-                                    Close
-                  </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </React.Fragment>
         )
@@ -122,13 +82,13 @@ class WhosOnlineListItem extends React.Component {
         }
         return (
             <li style={{ color: 'white' }} >
-                {/* <div
+                <div
                     style={{
                         ...styles.div,
                         backgroundColor:
-                            this.props.presenceState === 'online' ? '#539eff' : '#414756',
+                            this.props.presence === 'online' ? '#539eff' : '#414756',
                     }}
-                /> */}
+                />
                 {this.props.children}
             </li>
         )
