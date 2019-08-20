@@ -10,6 +10,7 @@ import TypingIndicator from './TypingIndicator'
 import './style.css'
 
 import { tokenUrl, instanceLocator } from './config'
+import PrivateRoomModal from './PrivateRoomModal';
 
 
 class GroupChat extends React.Component {
@@ -191,8 +192,7 @@ class GroupChat extends React.Component {
                     subscribeToRoom={this.subscribeToRoom}
                     rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
                     roomId={this.state.roomId}
-                    users={this.state.roomUsers}
-                    createPrivate={this.createPrivateRoomForGroupChat} /> 
+                    users={this.state.roomUsers}/> 
                 <MessageList
                     roomId={this.state.roomId}
                     messages={this.state.messages} />
@@ -205,7 +205,10 @@ class GroupChat extends React.Component {
                     {/* <CreatePrivateRoomForm createPrivateRoom={this.createPrivateRoom} /> */}
                     <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
                 </section>
-                <NewRoomForm createRoom={this.createRoom} />
+                <PrivateRoomModal 
+                 createPrivate={this.createPrivateRoomForGroupChat}
+                 createRoom={this.createRoom}/>
+                {/* <NewRoomForm createRoom={this.createRoom} /> */}
 
             </div>
         );

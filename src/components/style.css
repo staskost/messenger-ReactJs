@@ -127,12 +127,13 @@ html, body {
 }
 
 .new-room-form {
+    width: 200px;
     padding: 0 5px;
     background: var(--secondary-color);
     color: var(--main-text-color);
 }
 
-.new-room-form form {
+/* .new-room-form form {
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -145,12 +146,16 @@ html, body {
 }
 
 .new-room-form button {
+    
+    /* width: 135px;
     background: var(--secondary-color);
     color: var(--main-text-color);
-    border: 0;
-} 
+    border: 0; */
+    /* width: 135px; */
+    /* background: var(--secondary-color); */
+/* }  */ */
 
-.new-room-form input::placeholder {
+/* .new-room-form input::placeholder {
     color: var(--main-text-color);
     font-weight: 200;
 }
@@ -165,7 +170,7 @@ html, body {
 
 .new-room-form button {
     border: 0;
-}
+} */
 
 .message {
     margin: 15px 0;
