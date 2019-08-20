@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import UserContext from '../context/user-context';
-import { timeout } from 'q';
 
 
 class PrivateRoomModal extends Component {
@@ -19,7 +18,6 @@ class PrivateRoomModal extends Component {
         this.addUser = this.addUser.bind(this);
         this.create = this.create.bind(this);
         this.fetchUsers = this.fetchUsers.bind(this);
-        this.groupUsers =[];
     }
 
     fetchUsers = () => {
@@ -49,25 +47,19 @@ class PrivateRoomModal extends Component {
         this.setState({
             groupUsers: [...this.state.groupUsers, groupUser]
         })
-        // console.log(this.state.groupUsers)
         console.log(this.name.current.value)
         document.getElementById("addUser").value = '';
     }
 
     create = (name, groupUsers) => {
         this.props.createPrivate(name, groupUsers);
-        this.groupUsers = [];
         this.setState({
             groupUsers: []
         })
+        document.getElementById("name").value = '';
         console.log("yeah")
-        console.log(this.name.current.value)
-    }
-
-    handleChangeForUser(e) {
-        this.setState({
-            userName: e.target.value
-        })
+        console.log(name)
+        console.log(groupUsers)
     }
 
     //to be fixed
@@ -101,11 +93,11 @@ class PrivateRoomModal extends Component {
                                     </div>
                                 </div>
                                 <div>
-                                    <div onClick={() => this.addUser(this.user.current.value)}>Add</div>
+                                    <button type="button" onClick={() => this.addUser(this.user.current.value)}>Add</button>
                                 </div>
                                 <div className=" modal-footer justify-content-center">
-                                        <button  onClick= {() =>this.create(this.name.current.value, this.state.groupUsers)} className="btn btn-danger btn-block col-sm-4" data-dismiss="modal" >Submit</button>
-                                    
+                                        {/* <button  type="submit" className="btn btn-danger btn-block col-sm-4" data-dismiss="modal" >Submit</button> */}
+                                       <button  type="button" onClick={() =>this.create(this.name.current.value, this.state.groupUsers)} data-dismiss="modal" >Submit</button>
                                 </div>
                                 {/* </form> */}
                             </div>

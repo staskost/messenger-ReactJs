@@ -37,7 +37,10 @@ class RoomList extends React.Component {
         return (
             <React.Fragment>
                 <div className="rooms-list">
-                    <div><PrivateRoomModal createPrivate={this.props.createPrivate}
+                    <div><PrivateRoomModal 
+                    createPrivate = {this.props.createPrivate}
+                    addUserToRoom = {this.props.addUserToRoom} 
+                    prvRoomId = {this.props.prvRoomId}
                     ></PrivateRoomModal> </div>
                     <ul>
                         <h3>Your rooms:</h3>
