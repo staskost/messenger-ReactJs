@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserContext from '../context/user-context';
-
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 class PrivateRoomModal extends Component {
 
@@ -81,7 +81,7 @@ class PrivateRoomModal extends Component {
         this.props.createRoom(name)
     }
 
- 
+
     // onChange = () =>{
     //     this.setState({
     //         isPrivate: !this.state.isPrivate
@@ -92,9 +92,10 @@ class PrivateRoomModal extends Component {
     render() {
         return (
             <React.Fragment>
-                <button type="button" className="btn btn-secondary new-room-form button " data-toggle="modal" data-target={"#PrivateRoomModal"}>Create a Room</button>
+                {/* <button type="button" className="btn btn-secondary btn-sm new-room-form button " data-toggle="modal" data-target={"#PrivateRoomModal"}>Create a Room</button> */}
+                <a href="#PrivateRoomModal" className="btn btn-dark active new-room-form button col-sm-11 " data-toggle="modal" role="button" aria-pressed="true">Create a new room</a>
                 <div className="modal fade" id="PrivateRoomModal" tabIndex="-1" role="dialog" aria-labelledby="addUsers">
-                    <div div className="modal-dialog modal-lg" role="document">
+                    <div div className="modal-dialog " role="document">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="PrivateRoomModalLabel">Create Room</h5>
@@ -107,22 +108,25 @@ class PrivateRoomModal extends Component {
                                         <label htmlFor='name' className="col-form-label">Name:</label>
                                         <input type="text" className="form-control" id='name' ref={this.name} required ></input>
                                     </div>
-
+                                    <hr></hr>
                                     <div>
-                                    <label htmlFor='prv' className="col-form-label">private:</label>
+                                        {/* <label htmlFor='prv' className="col-form-label">private:</label>
                                         <input type="radio"
-                                            id="prv" 
-                                            name="prv"
-                                            value="prv"
-                                            checked="prv"
-                                            onChange={this.onPrvChecked} /><br></br>
-                                            <label htmlFor='public' className="col-form-label"> public:</label>
-                                        <input type="radio" 
+                                            id="prv"
+                                            onChange={this.onPrvChecked}></input><br></br> */}
+                                        <RadioGroup vertical>
+                                            <RadioButton onChange={this.onPrvChecked} value="">
+                                                Private
+                                            </RadioButton>
+                                            <RadioButton onChange={this.onPublicChecked} value="">
+                                                Public
+                                            </RadioButton>
+                                            {/* <label htmlFor='public' className="col-form-label"> public:</label>
+                                        <input type="radio"
                                             id="public"
-                                            name="public"
-                                            value='public'
-                                            checked="public"
-                                            onChange={this.onPublicChecked} /></div>
+                                            onChange={this.onPublicChecked} ></input> */}
+                                        </RadioGroup>
+                                    </div>
                                     {this.state.isPrivate && <div>
                                         <div >
                                             <label htmlFor='addUsers' className="col-form-label">Add Users</label>
@@ -141,8 +145,8 @@ class PrivateRoomModal extends Component {
                                 </div>
                                 <div className=" modal-footer justify-content-center">
                                     {/* <button  type="submit" className="btn btn-danger btn-block col-sm-4" data-dismiss="modal" >Submit</button> */}
-                                    <button type="button" onClick={this.state.isPrivate ? () => this.createPrivate(this.name.current.value, this.state.groupUsers)
-                                        : () => this.createPublic(this.name.current.value)} data-dismiss="modal" >Submit</button>
+                                    <button type="button" className="btn btn-dark" onClick={this.state.isPrivate ? () => this.createPrivate(this.name.current.value, this.state.groupUsers)
+                                        : () => this.createPublic(this.name.current.value)} data-dismiss="modal" >Create</button>
                                 </div>
                                 {/* </form> */}
                             </div>

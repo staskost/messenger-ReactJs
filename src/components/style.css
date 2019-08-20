@@ -133,7 +133,7 @@ html, body {
     color: var(--main-text-color);
 }
 
-/* .new-room-form form {
+ .new-room-form form {
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -147,13 +147,13 @@ html, body {
 
 .new-room-form button {
     
-    /* width: 135px;
+    width: 135px;
     background: var(--secondary-color);
     color: var(--main-text-color);
-    border: 0; */
-    /* width: 135px; */
-    /* background: var(--secondary-color); */
-/* }  */ */
+    border: 0; 
+     width: 135px; 
+    background: var(--secondary-color);
+}  
 
 /* .new-room-form input::placeholder {
     color: var(--main-text-color);
