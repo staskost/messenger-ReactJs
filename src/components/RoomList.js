@@ -11,7 +11,7 @@ class RoomList extends React.Component {
         console.log(this.props.users)
         return (
             <ul>
-                <h3>Users:</h3>
+                <h3>Room users:</h3>
                 {this.props.users.map((user, index) => {
                     if (user === this.context.userInfo.username) {
                         return (
