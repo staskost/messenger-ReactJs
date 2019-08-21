@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import UserContext from '../context/user-context';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
-class PrivateRoomModal extends Component {
+class CreateRoomModal extends Component {
 
     static contextType = UserContext;
 
@@ -153,4 +153,4 @@ render() {
 }
 }
 
-export default PrivateRoomModal;
+export default CreateRoomModal;

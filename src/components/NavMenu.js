@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import UserContext from '../context/user-context';
 import NotificationsNav from './NotificationsNav';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // const NavLink = props => {
 //     const link = <Link className="nav-link" to={props.to}>{props.label}</Link>;
@@ -20,7 +21,7 @@ class NavMenu extends Component {
     render() {
         if (this.context.isLoggedIn) {
                 return (<React.Fragment>
-                    <div><img src={this.context.userInfo.photoLink} className="avatar"></img></div>
+                    <div> {this.context.userInfo.photoLink == '' || this.context.userInfo.photoLink == null ? <FontAwesomeIcon icon={["far", "user-circle"]} size="8x" /> :<img src={this.context.userInfo.photoLink} className="avatar"></img>}</div>
                     <div className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle active" id="navbarProfileDropdownMenuLink" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">

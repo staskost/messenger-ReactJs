@@ -1,5 +1,5 @@
 :root {
-    --main-color: #5ea3d0;
+    --main-color: #05728f;
     --secondary-color: white;
     --main-text-color: #3e5869;
     --secondary-text-color: #b0c7d6;
@@ -260,8 +260,8 @@ html, body {
 
   .avatar {
     vertical-align: middle;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
   }
 

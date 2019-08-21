@@ -1,17 +1,16 @@
 import React from 'react'
 import UserContext from '../context/user-context';
 import $ from "jquery";
-import PrivateRoomModal from './PrivateRoomModal';
+import PrivateRoomModal from './CreateRoomModal';
 
 class RoomList extends React.Component {
 
     static contextType = UserContext;
 
     renderUsers() {
-        console.log(this.props.users)
         return (
             <ul>
-                <h3>Room users:</h3>
+                <h3 style={{ color: "white" }}>Room users:</h3>
                 {this.props.users.map((user, index) => {
                     if (user === this.context.userInfo.username) {
                         return (
@@ -38,7 +37,7 @@ class RoomList extends React.Component {
             <React.Fragment>
                 <div className="rooms-list">
                     <ul>
-                        <h3>Your rooms:</h3>
+                        <h3 style={{ color: "white" }}>Your rooms:</h3>
                         {orderedRooms.map(room => {
                             const roomIcon = !room.isPrivate ? '🌐' : '🔒';
                             const active = room.id === this.props.roomId ? 'active' : '';

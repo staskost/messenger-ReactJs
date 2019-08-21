@@ -7,7 +7,7 @@ import UserContext from '../context/user-context';
 import TypingIndicator from './TypingIndicator'
 import './style.css'
 import { tokenUrl, instanceLocator } from './config'
-import PrivateRoomModal from './PrivateRoomModal';
+import CreateRoomModal from './CreateRoomModal';
 
 
 class GroupChat extends React.Component {
@@ -189,7 +189,7 @@ class GroupChat extends React.Component {
                     />
                     <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
                 </section>
-                <PrivateRoomModal
+                <CreateRoomModal
                     createPrivate={this.createPrivateRoomForGroupChat}
                     createRoom={this.createRoom}
                     getRooms={this.getRooms} />
