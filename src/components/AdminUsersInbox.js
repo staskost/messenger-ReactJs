@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AdminUsersMessages from './AdminUsersMessages';
 
-
+//not used
 class AdminUsersInbox extends Component {
     render() {
         return (

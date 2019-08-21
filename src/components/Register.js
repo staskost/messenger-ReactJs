@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { default as Chatkit } from '@pusher/chatkit-server';
 
+
+const chatkit = new Chatkit({
+    instanceLocator: "v1:us1:c69e97bb-eef9-4f5c-810f-951156e74f79",
+    key: "cdeb1880-05fb-4130-8ec2-283082b425c8:XQ45JxNvzSfR3LFtsPgFOHQz33UXeztWtH8v+3XdWV4="
+  })
+  
 class Register extends Component {
 
     constructor(props) {
@@ -14,6 +21,16 @@ class Register extends Component {
         this.state = {
             regError: false
         }
+    }
+    createChatkitUser(){
+        const username = this.username.current.value;
+        chatkit.createUser({
+            id: username,
+            name: username,
+            }).catch((err) => {
+                console.log(err.status);
+              
+            });
     }
 
     handleSubmit = (event) => {
@@ -38,6 +55,7 @@ class Register extends Component {
         }).then((response) => {
             if (response.status === 200) {
                 alert("Register Successful");
+                this.createChatkitUser();
                 this.props.history.push('/');
             } else if (response.status === 400) {
                 response.json().then(data => {

@@ -3,12 +3,9 @@ import Chatkit from '@pusher/chatkit-client'
 import MessageList from './MessageList'
 import SendMessageForm from './SendMessageForm'
 import RoomList from './RoomList'
-import CreatePrivateRoomForm from './CreatePrivateRoomForm'
-import NewRoomForm from './NewRoomForm'
 import UserContext from '../context/user-context';
 import TypingIndicator from './TypingIndicator'
 import './style.css'
-
 import { tokenUrl, instanceLocator } from './config'
 import PrivateRoomModal from './PrivateRoomModal';
 
@@ -26,8 +23,8 @@ class GroupChat extends React.Component {
             joinedRooms: [],
             usersWhoAreTyping: [],
             roomUsers: [],
-            privateRoomId: null
         }
+
         this.sendMessage = this.sendMessage.bind(this)
         this.subscribeToRoom = this.subscribeToRoom.bind(this)
         this.getRooms = this.getRooms.bind(this)
@@ -36,7 +33,6 @@ class GroupChat extends React.Component {
         this.sendTypingEvent = this.sendTypingEvent.bind(this)
         this.createPrivateRoomForGroupChat = this.createPrivateRoomForGroupChat.bind(this);
         this.addUserToRoom = this.addUserToRoom.bind(this)
-        this.handleCreation = this.handleCreation.bind(this)
     }
 
     componentDidMount() {
@@ -46,7 +42,7 @@ class GroupChat extends React.Component {
             tokenProvider: new Chatkit.TokenProvider({
                 url: tokenUrl
             })
-           
+
         })
 
 
@@ -57,9 +53,8 @@ class GroupChat extends React.Component {
                 this.getRooms()
             })
             .catch(err => console.log('error on connecting: ', err.message))
-                    console.log(this.currentUser)
     }
-    
+
 
     getRooms() {
         this.currentUser.getJoinableRooms()
@@ -105,7 +100,6 @@ class GroupChat extends React.Component {
                     roomId: room.id,
                     roomUsers: room.userIds
                 })
-                // console.log(this.state.roomUsers)
                 this.getRooms()
             })
             .catch(err => console.log('error on subscribing to room: ', err))
@@ -124,12 +118,8 @@ class GroupChat extends React.Component {
             .catch(error => console.error('error', error))
     }
 
+    //not used
     createPrivateRoom(username, username2) {
-        let room = `${username}-${username2}`;
-        const rooms = this.currentUser.rooms
-        if(rooms.indexOf(room)>-1){
-            alert("This room already exists")
-        } else {
         this.currentUser.createRoom({
             name: `${username}-${username2}`,
             private: true,
@@ -139,13 +129,7 @@ class GroupChat extends React.Component {
             )
             .catch(err => console.log('error with createRoom: ', err))
     }
-}
 
-    handleCreation(roomId){
-        this.subscribeToRoom(roomId)
-        this.setState({privateRoomId:roomId})
-        console.log("un"+roomId)
-    }
 
     createPrivateRoomForGroupChat = (name, groupUsers) => {
         this.currentUser.createRoom({
@@ -165,13 +149,14 @@ class GroupChat extends React.Component {
             .catch(err => console.log('error with createRoom: ', err))
     }
 
-    addUserToRoom = (username, roomId) =>{
+    //not used
+    addUserToRoom = (username, roomId) => {
         this.currentUser.addUserToRoom({
             userId: username,
             roomId: roomId
         })
             .then(() => {
-                console.log('Added ' + username + ' to room ' +roomId)
+                console.log('Added ' + username + ' to room ' + roomId)
             })
             .catch(err => {
                 console.log(`Error : ${err.message}`)
@@ -192,7 +177,7 @@ class GroupChat extends React.Component {
                     subscribeToRoom={this.subscribeToRoom}
                     rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
                     roomId={this.state.roomId}
-                    users={this.state.roomUsers}/> 
+                    users={this.state.roomUsers} />
                 <MessageList
                     roomId={this.state.roomId}
                     messages={this.state.messages} />
@@ -202,14 +187,12 @@ class GroupChat extends React.Component {
                         sendMessage={this.sendMessage}
                         onChange={this.sendTypingEvent}
                     />
-                    {/* <CreatePrivateRoomForm createPrivateRoom={this.createPrivateRoom} /> */}
                     <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
                 </section>
-                <PrivateRoomModal 
-                 createPrivate={this.createPrivateRoomForGroupChat}
-                 createRoom={this.createRoom}/>
-                {/* <NewRoomForm createRoom={this.createRoom} /> */}
-
+                <PrivateRoomModal
+                    createPrivate={this.createPrivateRoomForGroupChat}
+                    createRoom={this.createRoom}
+                    getRooms={this.getRooms} />
             </div>
         );
     }
