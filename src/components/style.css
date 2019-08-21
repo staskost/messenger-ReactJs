@@ -247,16 +247,10 @@ html, body {
     justify-content: center;
   }
 
-/* .emoji-mart {
-    position: absolute;
-    bottom: 20px;
-    right: 10px;
-  } */
-
   .toggle-emoji svg {
     width: 28px;
     height: 28px;
-  } 
+  }
 
   .avatar {
     vertical-align: middle;

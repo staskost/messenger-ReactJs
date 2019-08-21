@@ -8,17 +8,17 @@ class MyAccount extends Component {
 
     constructor(props) {
         super(props);
-        this.inputUsername = React.createRef();
+        // this.inputUsername = React.createRef();
         this.inputEmail = React.createRef();
         this.inputFirstName = React.createRef();
         this.inputLastName = React.createRef();
         this.state = {
-            username: '',
+            // username: '',
             email: '',
             firstName: '',
             lastName: '',
             photoLink: '',
-            
+
         };
     }
 
@@ -80,33 +80,33 @@ class MyAccount extends Component {
         });
     };
 
-    handleUpdateUsername = () =>{
-        const newUsername = this.inputUsername.current.value;
-        if ((newUsername !== "") && (newUsername !== this.context.userInfo.username)) {
-            const url = 'http://localhost:8080/users/update-username/' + newUsername;
-            fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'X-MSG-AUTH': this.context.token
-                }
-            }).then(response => {
-                if (response.status === 200) {
-                    let updatedUser = this.context.userInfo;
-                    updatedUser.username = newUsername;
-                    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
-                    this.context.updateUserContext();
-                    this.setState({ username: newUsername });
-                    alert("Username updated successfully")
-                } else {
-                    response.json().then(data => {
-                        alert(data.message );
-                    })
-                }
-            }).catch(error => console.error('Error:', error));
-        }
-    }
+    // handleUpdateUsername = () =>{
+    //     const newUsername = this.inputUsername.current.value;
+    //     if ((newUsername !== "") && (newUsername !== this.context.userInfo.username)) {
+    //         const url = 'http://localhost:8080/users/update-username/' + newUsername;
+    //         fetch(url, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'X-MSG-AUTH': this.context.token
+    //             }
+    //         }).then(response => {
+    //             if (response.status === 200) {
+    //                 let updatedUser = this.context.userInfo;
+    //                 updatedUser.username = newUsername;
+    //                 localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+    //                 this.context.updateUserContext();
+    //                 this.setState({ username: newUsername });
+    //                 alert("Username updated successfully")
+    //             } else {
+    //                 response.json().then(data => {
+    //                     alert(data.message );
+    //                 })
+    //             }
+    //         }).catch(error => console.error('Error:', error));
+    //     }
+    // }
 
-    handleUpdateEmail = () =>{
+    handleUpdateEmail = () => {
         const newEmail = this.inputEmail.current.value;
         if ((newEmail !== "") && (newEmail !== this.context.userInfo.username)) {
             const url = 'http://localhost:8080/users/update-email/' + newEmail;
@@ -125,14 +125,14 @@ class MyAccount extends Component {
                     alert("Email updated successfully")
                 } else {
                     response.json().then(data => {
-                        alert(data.message );
+                        alert(data.message);
                     })
                 }
             }).catch(error => console.error('Error:', error));
         }
     }
 
-    handleUpdateFirstName = () =>{
+    handleUpdateFirstName = () => {
         const newFirstName = this.inputFirstName.current.value;
         if ((newFirstName !== "") && (newFirstName !== this.context.userInfo.firstName)) {
             const url = 'http://localhost:8080/users/update-email/' + newFirstName;
@@ -151,14 +151,14 @@ class MyAccount extends Component {
                     alert("First name updated successfully")
                 } else {
                     response.json().then(data => {
-                        alert(data.message );
+                        alert(data.message);
                     })
                 }
             }).catch(error => console.error('Error:', error));
         }
     }
 
-    handleUpdateLastName = () =>{
+    handleUpdateLastName = () => {
         const newLastName = this.inputLastName.current.value;
         if ((newLastName !== "") && (newLastName !== this.context.userInfo.lastName)) {
             const url = 'http://localhost:8080/users/update-email/' + newLastName;
@@ -177,7 +177,7 @@ class MyAccount extends Component {
                     alert("Last name updated successfully")
                 } else {
                     response.json().then(data => {
-                        alert(data.message );
+                        alert(data.message);
                     })
                 }
             }).catch(error => console.error('Error:', error));
@@ -193,8 +193,7 @@ class MyAccount extends Component {
                         <div className="form-row">
                             <div className="form-group col-md-6">
                                 <label htmlFor="inputUsername">Username</label>
-                                <input type="text" className="form-control" id="inputUsername" placeholder="Username" placeholder={this.context.userInfo.username} ref={this.inputUsername} />
-                                <button type="button" className="btn btn-primary" onClick={this.handleUpdateUsername}>Update</button>
+                                <input type="text" className="form-control" id="inputUsername" placeholder="Username" readOnly value={this.context.userInfo.username} />
                             </div>
                             <div className="form-group col-md-6">
                                 <label htmlFor="inputEmail">Email</label>
@@ -212,7 +211,7 @@ class MyAccount extends Component {
                             </div>
                             <div className="form-group col-md-6">
                                 <label htmlFor="inputLastName">Last Name</label>
-                                <input type="text" className="form-control" id="inputLastName" placeholder="Last name" placeholder={this.context.userInfo.lastName} ref={this.inputLastName}/>
+                                <input type="text" className="form-control" id="inputLastName" placeholder="Last name" placeholder={this.context.userInfo.lastName} ref={this.inputLastName} />
                                 <button type="button" className="btn btn-primary" onClick={this.handleUpdateLastName}>Update</button>
 
                             </div>
@@ -237,5 +236,5 @@ class MyAccount extends Component {
         );
     }
 }
- 
+
 export default MyAccount;
