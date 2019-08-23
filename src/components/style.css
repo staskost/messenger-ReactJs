@@ -6,7 +6,11 @@
     --send-message-form: #F5F5F5;
 }
 
-html, body {
+body.noScroll { /* ...or body.dialogShowing */
+    overflow: hidden;
+  }
+
+html, body{
     height: 100%;
     margin: 0;
     padding: 0;

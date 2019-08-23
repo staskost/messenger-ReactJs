@@ -90,6 +90,8 @@ class CreateRoomModal extends Component {
     }
 
 render() {
+    const roomIcon = !this.state.isPrivate ? '🌐' : '🔒';
+    const roomStatus= !this.state.isPrivate ? 'Public':'Private';
     return (
         <React.Fragment>
             {/* <button type="button" className="btn btn-secondary btn-sm new-room-form button " data-toggle="modal" data-target={"#PrivateRoomModal"}>Create a Room</button> */}
@@ -101,6 +103,7 @@ render() {
                             <h5 className="modal-title" id="PrivateRoomModalLabel">Create Room</h5>
                             <button className="close" data-dismiss="modal">&times;</button>
                         </div>
+                        <div><h6>RoomStatus Now:</h6>{roomStatus}{roomIcon}</div>
                         <div className="modal-body">
                             {/* <form onSubmit={() =>this.create(this.name.current.value, this.state.groupUsers)}> */}
                             <div className="text-center">

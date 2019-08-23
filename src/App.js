@@ -13,8 +13,6 @@ import Footer from './components/Footer';
 import Admin from './components/Admin';
 import Chat from './components/Chat';
 import GroupChat from './components/GroupChat';
-import AdminUsersInbox from './components/AdminUsersInbox';
-import AdminUsersOutbox from './components/AdminUsersOutbox';
 import AdminInboxMessages from './components/AdminInboxMessages';
 import AdminOutboxMessages from './components/AdminOutboxMessages'
 import MyAccount from './components/MyAccount';
