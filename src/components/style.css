@@ -6,9 +6,6 @@
     --send-message-form: #F5F5F5;
 }
 
-body.noScroll { /* ...or body.dialogShowing */
-    overflow: hidden;
-  }
 
 html, body{
     height: 100%;

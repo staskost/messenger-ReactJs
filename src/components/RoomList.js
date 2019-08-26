@@ -35,7 +35,7 @@ class RoomList extends React.Component {
         const orderedRooms = [...this.props.rooms].sort((a, b) => a.id > b.id)
         return (
             <React.Fragment>
-                <div className="rooms-list">
+                <div className="rooms-list" >
                     <ul>
                         <h3 style={{ color: "white" }}>Your rooms:</h3>
                         {orderedRooms.map(room => {

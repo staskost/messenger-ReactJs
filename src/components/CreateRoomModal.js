@@ -21,6 +21,7 @@ class CreateRoomModal extends Component {
         this.createPrivate = this.createPrivate.bind(this);
         this.createPublic = this.createPublic.bind(this);
         this.fetchUsers = this.fetchUsers.bind(this);
+        this.cancelRoomCreation = this.cancelRoomCreation.bind(this);
     }
 
     onPrvChecked = (e) => {
@@ -89,9 +90,17 @@ class CreateRoomModal extends Component {
         }
     }
 
+    cancelRoomCreation = () =>{
+        this.setState({
+            groupUsers: [],
+            isPrivate: false
+        })
+        document.getElementById("name").value = '';
+    }
+
 render() {
-    const roomIcon = !this.state.isPrivate ? '🌐' : '🔒';
-    const roomStatus= !this.state.isPrivate ? 'Public':'Private';
+    const roomIcon = !this.state.isPrivate ? ' 🌐' : ' 🔒';
+    const roomStatus= !this.state.isPrivate ? <strong>Public</strong>:<strong>Private</strong>;
     return (
         <React.Fragment>
             {/* <button type="button" className="btn btn-secondary btn-sm new-room-form button " data-toggle="modal" data-target={"#PrivateRoomModal"}>Create a Room</button> */}
@@ -101,7 +110,7 @@ render() {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="PrivateRoomModalLabel">Create Room</h5>
-                            <button className="close" data-dismiss="modal">&times;</button>
+                            <button onClick={this.cancelRoomCreation}className="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div><h6>RoomStatus Now:</h6>{roomStatus}{roomIcon}</div>
                         <div className="modal-body">
@@ -124,7 +133,7 @@ render() {
                                 </div>
                                 {this.state.isPrivate && <div>
                                     <h6>Room Users:</h6>
-                                    <div> {this.state.groupUsers + " "} </div>
+                                    <div> {this.state.groupUsers} </div>
                                     <div>
                                         <label htmlFor='addUsers' className="col-form-label">Add User</label>
                                         <input list="prv_users" type="addUser" className="form-control" id="addUser" name="addUser"
@@ -141,6 +150,7 @@ render() {
                                 </div>}
                             </div>
                             <div className=" modal-footer justify-content-center">
+                                <button className="btn btn-danger" onClick={this.cancelRoomCreation} data-dismiss="modal">Cancel</button>
                                 {/* <button  type="submit" className="btn btn-danger btn-block col-sm-4" data-dismiss="modal" >Submit</button> */}
                                 <button type="button" className="btn btn-primary" onClick={this.state.isPrivate ? () => this.createPrivate(this.name.current.value, this.state.groupUsers)
                                     : () => this.createPublic(this.name.current.value)} data-dismiss="modal" >Create</button>
