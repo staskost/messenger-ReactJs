@@ -9,7 +9,6 @@ import Outbox from './components/Outbox'
 import Main from './components/Main';
 import Register from './components/Register';
 import SendMessage from './components/SendMessage';
-import Footer from './components/Footer';
 import Admin from './components/Admin';
 import Chat from './components/Chat';
 import GroupChat from './components/GroupChat';
@@ -63,12 +62,12 @@ class App extends Component {
           <Route path="/admin/user/inbox/:id" exact render={this.renderProtectedComponent(AdminInboxMessages)} />
           <Route path="/admin/user/outbox/:id" exact render={this.renderProtectedComponent(AdminOutboxMessages)} /> 
           <Route path="/profile" exact render={this.renderProtectedComponent(MyAccount)} />
-          <Route path="/send" exact component={SendMessage} />
+          <Route path="/send" exact render={this.renderProtectedComponent(SendMessage)} />
           <Route path="/login" exact component={LoginModalBody} />
           <Route path="/logout"  exact component={LogoutModalBody} />
           <Route path="/register" exact component={Register} />
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </UserContext.Provider>
       </Router>
     );

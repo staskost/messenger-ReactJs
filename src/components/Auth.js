@@ -21,7 +21,7 @@ export class LoginModalBody extends Component {
 
         fetch(url, {
             method: 'POST',
-            body: JSON.stringify(loginData), // data can be `string` or {object}!
+            body: JSON.stringify(loginData), 
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

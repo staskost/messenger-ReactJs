@@ -217,7 +217,7 @@ class Chat extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container">
+                <div className="container main_chat_area">
                     <h3 className=" text-center">Messaging with {this.state.currentUser === "" ? "none yet" : this.state.currentUser}</h3>
                     <small className=" text-center">
                         {this.state.messages.length === 0 && <h5>Start a conversation</h5>}
